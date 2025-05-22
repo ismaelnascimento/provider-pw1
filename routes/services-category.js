@@ -1,4 +1,4 @@
-import { services } from "./services";
+const { services } = require("./services");
 
 var express = require("express");
 var router = express.Router();

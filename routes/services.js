@@ -1,11 +1,23 @@
-import { categories } from "./categories";
-
 var express = require("express");
 var router = express.Router();
 
-/* GET categories listing. */
+/* GET services listing. */
+var categories = [
+  {
+    name: "Cabeleleiro",
+  },
+  {
+    name: "Predeiro",
+  },
+  {
+    name: "Faxineiro",
+  },
+  {
+    name: "Reparo",
+  },
+];
 
-export var services = [
+var services = [
   {
     name: "Senhor lima",
     category: categories[0],
@@ -20,7 +32,11 @@ export var services = [
 ];
 
 router.get("/", function (req, res, next) {
-  res.render("index", { services: services });
+  res.render("index", { services: services, categories: categories });
 });
 
-module.exports = router;
+module.exports = {
+  router,
+  services,
+  categories,
+};
