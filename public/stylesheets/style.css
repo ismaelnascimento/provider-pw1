@@ -1,3 +1,51 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  font: 14px "Inter", sans-serif;
+  font: 16px "Inter", sans-serif;
+
+  --color-primary: #8DB986;
+  --color-primary-light: #ACCE91;
+  --color-gray-light: #EFEAE4;
+  --color-gray-light-2: #E0DBD6;
+  --color-bg: #27272A;
+}
+
+/* BACKGROUNDS */
+
+.bg-color-primary {
+  background: var(--color-primary);
+}
+.bg-color-bg {
+  background: var(--color-bg);
+}
+.bg-color-primary-light {
+  background: var(--color-primary-light);
+}
+.bg-color-gray-light {
+  background: var(--color-gray-light);
+}
+.bg-color-gray-light-2 {
+  background: var(--color-gray-light-2);
+}
+
+/* TEXTS */
+
+.text-color-primary {
+  color: var(--color-primary);
+}
+.text-color-bg {
+  color: var(--color-bg);
+}
+.text-color-primary-light {
+  color: var(--color-primary-light);
+}
+.text-color-gray-light {
+  color: var(--color-gray-light);
+}
+.text-color-gray-light-2 {
+  color: var(--color-gray-light-2);
 }
