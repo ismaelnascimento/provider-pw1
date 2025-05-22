@@ -5,22 +5,24 @@
     <title>
         Provider
     </title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-        rel="stylesheet">
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css" />
 </head>
 
 <body>
-    <header class="w-full bg-black flex justify-between">
-        <h1 class="text-2xl font-bold text-white mb-3">
+    <header class="w-full bg-color-bg flex justify-between p-4">
+        <h1 class="text-2xl font-semibold text-white mb-3">
             Provider
         </h1>
 
-        <h1 class="text-2xl font-bold text-white mb-3">
-            Provider
-        </h1>
+        <div class="text-xm font-bold text-white mb-3">
+            <i class="hgi hgi-stroke hgi-location-09" stroke-width="0.5"></i>
+            <p><%= userLocationStr %></p>
+        </div>
     </header>
