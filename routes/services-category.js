@@ -1,6 +1,5 @@
-const { services } = require("./services");
-
 var express = require("express");
+var services = require("../data/services");
 var router = express.Router();
 
 /* GET categories listing. */
