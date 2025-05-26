@@ -8,11 +8,11 @@
 body {
   font: 16px "Inter", sans-serif;
 
-  --color-primary: #8DB986;
-  --color-primary-light: #ACCE91;
-  --color-gray-light: #EFEAE4;
-  --color-gray-light-2: #E0DBD6;
-  --color-bg: #27272A;
+  --color-primary: #8bb785;
+  --color-primary-light: #acce91;
+  --color-gray-light: #efeae4;
+  --color-gray-light-2: #e0dbd6;
+  --color-bg: #27272a;
 }
 
 /* BACKGROUNDS */
