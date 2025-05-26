@@ -3,6 +3,7 @@
 * {
   margin: 0;
   box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
 body {
@@ -18,19 +19,19 @@ body {
 /* BACKGROUNDS */
 
 .bg-color-primary {
-  background: var(--color-primary);
+  background-color: var(--color-primary);
 }
 .bg-color-bg {
-  background: var(--color-bg);
+  background-color: var(--color-bg);
 }
 .bg-color-primary-light {
-  background: var(--color-primary-light);
+  background-color: var(--color-primary-light);
 }
 .bg-color-gray-light {
-  background: var(--color-gray-light);
+  background-color: var(--color-gray-light);
 }
 .bg-color-gray-light-2 {
-  background: var(--color-gray-light-2);
+  background-color: var(--color-gray-light-2);
 }
 
 /* TEXTS */

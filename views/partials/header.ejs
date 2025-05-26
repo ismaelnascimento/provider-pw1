@@ -7,8 +7,22 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
       rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    />    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'color-primary': 'var(--color-primary)',
+              'color-primary-light': 'var(--color-primary-light)',
+              'color-gray-light': 'var(--color-gray-light)',
+              'color-gray-light-2': 'var(--color-gray-light-2)',
+              'color-bg': 'var(--color-bg)',
+            }
+          }
+        }
+      }
+    </script>
     <link rel="stylesheet" href="/stylesheets/style.css" />
     <link
       rel="stylesheet"
@@ -16,6 +30,7 @@
     />
     <link rel="icon" href="assets/logo.svg" type="image/x-icon" />
   </head>
+
 
   <body>
     <header class="w-full bg-color-bg flex justify-between p-10 h-20">
@@ -59,7 +74,7 @@
 
         <label
           for="searchInput"
-          class="flex items-center gap-2 bg-white rounded-lg px-2 h-10 hover:bg-gray-200 transition-colors duration-200"
+          class="flex items-center gap-2 bg-white rounded-lg px-2 h-10 hover:bg-gray-200"
         >
           <svg
             class="cursor-pointer"
