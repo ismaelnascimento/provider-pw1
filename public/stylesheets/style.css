@@ -1,3 +1,20 @@
+@import "tailwindcss";
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
 body {
-  font: 14px "Inter", sans-serif;
+  font: 16px "Inter", sans-serif;
+
+  --color-primary: #759d6e;
+  --color-primary-light: #acce91;
+  --color-gray-light: #efeae4;
+  --color-gray-light-2: #e0dbd6;
+  --color-gray: #5e5e65;
+  --color-bg: #27272a;
+
+  background-color: var(--color-gray-light);
 }
