@@ -1,98 +1,61 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Provider</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="/stylesheets/style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css"
-    />
-    <link rel="icon" href="assets/logo.svg" type="image/x-icon" />
-  </head>
 
-  <body>
-    <header class="w-full bg-color-bg flex justify-between p-10 h-20">
-      <div class="flex items-center gap-4">
-        <img src="/assets/logo.svg" alt="Logo" class="h-10 w-10" />
+<head>
+  <title>Provider</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+  <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css" />
+  <link rel="icon" href="assets/logo.svg" type="image/x-icon" />
+</head>
 
-        <h1 class="text-2xl font-semibold text-white">Provider</h1>
+<body>
+  <header class="w-full bg-color-bg flex justify-between p-10 h-20">
+    <div class="flex items-center gap-4">
+      <img src="/assets/logo.svg" alt="Logo" class="h-10 w-10" />
+
+      <h1 class="text-2xl font-semibold text-white">Provider</h1>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <div class="flex items-center text-sm font-normal text-white gap-1 cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#ffffff" fill="none">
+          <path
+            d="M7 18C5.17107 18.4117 4 19.0443 4 19.7537C4 20.9943 7.58172 22 12 22C16.4183 22 20 20.9943 20 19.7537C20 19.0443 18.8289 18.4117 17 18"
+            stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path>
+          <path
+            d="M14.5 9C14.5 10.3807 13.3807 11.5 12 11.5C10.6193 11.5 9.5 10.3807 9.5 9C9.5 7.61929 10.6193 6.5 12 6.5C13.3807 6.5 14.5 7.61929 14.5 9Z"
+            stroke="#ffffff" stroke-width="1.5"></path>
+          <path
+            d="M13.2574 17.4936C12.9201 17.8184 12.4693 18 12.0002 18C11.531 18 11.0802 17.8184 10.7429 17.4936C7.6543 14.5008 3.51519 11.1575 5.53371 6.30373C6.6251 3.67932 9.24494 2 12.0002 2C14.7554 2 17.3752 3.67933 18.4666 6.30373C20.4826 11.1514 16.3536 14.5111 13.2574 17.4936Z"
+            stroke="#ffffff" stroke-width="1.5"></path>
+        </svg>
+        <p>
+          <%= userLocationStr %>
+        </p>
       </div>
 
-      <div class="flex items-center gap-4">
-        <div
-          class="flex items-center text-xm font-normal text-white gap-1 cursor-pointer"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            color="#ffffff"
-            fill="none"
-          >
-            <path
-              d="M7 18C5.17107 18.4117 4 19.0443 4 19.7537C4 20.9943 7.58172 22 12 22C16.4183 22 20 20.9943 20 19.7537C20 19.0443 18.8289 18.4117 17 18"
-              stroke="#ffffff"
-              stroke-width="1.5"
-              stroke-linecap="round"
-            ></path>
-            <path
-              d="M14.5 9C14.5 10.3807 13.3807 11.5 12 11.5C10.6193 11.5 9.5 10.3807 9.5 9C9.5 7.61929 10.6193 6.5 12 6.5C13.3807 6.5 14.5 7.61929 14.5 9Z"
-              stroke="#ffffff"
-              stroke-width="1.5"
-            ></path>
-            <path
-              d="M13.2574 17.4936C12.9201 17.8184 12.4693 18 12.0002 18C11.531 18 11.0802 17.8184 10.7429 17.4936C7.6543 14.5008 3.51519 11.1575 5.53371 6.30373C6.6251 3.67932 9.24494 2 12.0002 2C14.7554 2 17.3752 3.67933 18.4666 6.30373C20.4826 11.1514 16.3536 14.5111 13.2574 17.4936Z"
-              stroke="#ffffff"
-              stroke-width="1.5"
-            ></path>
-          </svg>
-          <p><%= userLocationStr %></p>
-        </div>
+      <label for="searchInput"
+        class="flex items-center gap-2 bg-white rounded-lg px-2 h-10 hover:bg-gray-200 transition-colors duration-200">
+        <svg class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+          color="#27272a" fill="none">
+          <path d="M17 17L21 21" stroke="#27272a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          </path>
+          <path
+            d="M19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C15.4183 19 19 15.4183 19 11Z"
+            stroke="#27272a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <input id="searchInput" type="text" placeholder="Buscar serviços"
+          class="outline-none text-sm text-color-text w-full" onsubmit="window.location.href = '/search/' + this.value"
+          onkeydown="if (event.key === 'Enter') { window.location.href = '/search/' + this.value; }" />
+    </div>
+    </div>
+  </header>
+</body>
 
-        <label
-          for="searchInput"
-          class="flex items-center gap-2 bg-white rounded-lg px-2 h-10 hover:bg-gray-200 transition-colors duration-200"
-        >
-          <svg
-            class="cursor-pointer"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            color="#27272a"
-            fill="none"
-          >
-            <path
-              d="M17 17L21 21"
-              stroke="#27272a"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></path>
-            <path
-              d="M19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C15.4183 19 19 15.4183 19 11Z"
-              stroke="#27272a"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></path>
-          </svg>
-          <input
-          id="searchInput"
-            type="text"
-            placeholder="Buscar serviços"
-            class="outline-none text-sm text-color-text w-full"
-          />
-        </div>
-      </div>
-    </header>
-  </body>
 </html>
