@@ -6,6 +6,7 @@ var logger = require("morgan");
 
 var servicesRouter = require("./routes/services");
 var servicesCategoryRouter = require("./routes/services-category");
+var servicesSearchRouter = require("./routes/services-search");
 var usersRouter = require("./routes/users/users");
 var usersLoginRouter = require("./routes/users/login");
 var usersLoginUserRouter = require("./routes/users/login-user");
@@ -26,6 +27,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", servicesRouter);
 app.use("/", servicesCategoryRouter);
+app.use("/search", servicesSearchRouter);
 app.use("/users", usersRouter);
 app.use("/users/login", usersLoginRouter);
 app.use("/users/login", usersLoginUserRouter);

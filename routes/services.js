@@ -19,9 +19,13 @@ router.get("/", function (req, res, next) {
       .toLowerCase()
       .includes(userLocationStr.toLowerCase());
   });
+  const popularServices = services.filter((service) => {
+    return service.stars >= 4;
+  });
 
   res.render("index", {
     services: filteredServices,
+    popularServices: popularServices,
     categories: categories,
     userLocationStr,
   });

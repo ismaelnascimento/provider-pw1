@@ -9,10 +9,12 @@
 body {
   font: 16px "Inter", sans-serif;
 
-  --color-primary: #8bb785;
+  --color-primary: #759D6E;
   --color-primary-light: #acce91;
+  --color-primary-light-2: #DDFAC5;
   --color-gray-light: #efeae4;
   --color-gray-light-2: #e0dbd6;
+  --color-gray: #5e5e65;
   --color-bg: #27272a;
 }
 
@@ -33,9 +35,14 @@ body {
 .bg-color-gray-light-2 {
   background-color: var(--color-gray-light-2);
 }
+.bg-color-gray {
+  background: var(--color-gray);
+}
 
 /* TEXTS */
-
+.text-color-gray {
+  color: var(--color-gray);
+}
 .text-color-primary {
   color: var(--color-primary);
 }
@@ -50,4 +57,22 @@ body {
 }
 .text-color-gray-light-2 {
   color: var(--color-gray-light-2);
+}
+
+/* BORDER */
+
+.border-primary {
+  border: 1px solid var(--color-primary);
+}
+.border-bg {
+  border: 1px solid var(--color-bg);
+}
+.border-gray {
+  border: 1px solid var(--color-gray);
+}
+.border-gray-light {
+  border: 1px solid var(--color-gray-light);
+}
+.border-gray-light-2 {
+  border: 1px solid var(--color-gray-light-2);
 }

@@ -3,7 +3,7 @@ var categories = [
       name: "Cabeleleiro",
     },
     {
-      name: "Predeiro",
+      name: "Pedreiro",
     },
     {
       name: "Faxineiro",
