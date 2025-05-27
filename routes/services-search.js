@@ -22,13 +22,11 @@ router.get("/:search", function (req, res, next) {
     );
   });
 
-  const popularServices = services.filter((service) => {
-    return service.stars >= 4;
-  });
-
   res.render("index", {
+    isServicesFavorites: false,
+
     services: filteredServices,
-    popularServices: popularServices,
+    popularServices: [],
     categories: categories,
     userLocationStr,
   });

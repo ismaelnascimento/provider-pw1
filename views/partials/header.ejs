@@ -7,8 +7,24 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
       rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    />    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'color-primary': 'var(--color-primary)',
+              'color-primary-light': 'var(--color-primary-light)',
+              'color-gray-light': 'var(--color-gray-light)',
+              'color-gray-light-2': 'var(--color-gray-light-2)',
+              '--color-gray': 'var(--color-gray)',
+              'color-bg': 'var(--color-bg)',
+            }
+          }
+        }
+      }
+    </script>
     <link rel="stylesheet" href="/stylesheets/style.css" />
     <link
       rel="stylesheet"
@@ -43,42 +59,21 @@
         </p>
       </div>
 
-        <label
-          for="searchInput"
-          class="flex items-center gap-2 bg-white rounded-lg px-2 h-10 hover:bg-gray-200 transition-colors duration-200"
-        >
-          <svg
-            class="cursor-pointer"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            color="#27272a"
-            fill="none"
-          >
-            <path
-              d="M17 17L21 21"
-              stroke="#27272a"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></path>
-            <path
-              d="M19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C15.4183 19 19 15.4183 19 11Z"
-              stroke="#27272a"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></path>
-          </svg>
-          <input
-          id="searchInput"
-            type="text"
-            placeholder="Buscar serviços"
-            class="outline-none text-sm text-color-text w-full"
-          />
-        </div>
-      </div>
-    </header>
-  </body>
+      <label for="searchInput"
+        class="flex items-center gap-2 bg-white rounded-lg px-2 h-10 hover:bg-gray-200 transition-colors duration-200">
+        <svg class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+          color="#27272a" fill="none">
+          <path d="M17 17L21 21" stroke="#27272a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          </path>
+          <path
+            d="M19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C15.4183 19 19 15.4183 19 11Z"
+            stroke="#27272a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <input id="searchInput" type="text" placeholder="Buscar serviços"
+          class="outline-none text-sm text-color-text w-full" onsubmit="window.location.href = '/search/' + this.value"
+          onkeydown="if (event.key === 'Enter') { window.location.href = '/search/' + this.value; }" />
+    </div>
+    </div>
+  </header>
+</body>
 </html>
