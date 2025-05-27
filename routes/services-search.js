@@ -23,8 +23,8 @@ router.get("/:search", function (req, res, next) {
   });
 
   res.render("index", {
+    search: req.params.search,
     isServicesFavorites: false,
-
     services: filteredServices,
     popularServices: [],
     categories: categories,

@@ -24,6 +24,7 @@ router.get("/", function (req, res, next) {
   });
 
   res.render("index", {
+    search: "",
     isServicesFavorites: false,
     services: filteredServices,
     popularServices: popularServices,

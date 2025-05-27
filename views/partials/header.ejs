@@ -3,6 +3,7 @@
 
 <head>
   <title>Provider</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -57,7 +58,7 @@
       </div>
 
       <label for="searchInput"
-        class="flex items-center gap-2 bg-white rounded-lg px-2 h-10 hover:bg-gray-200 transition-colors duration-200">
+        class="flex items-center gap-2 bg-white rounded-lg px-2 h-10 transition-colors duration-200">
         <svg class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
           color="#27272a" fill="none">
           <path d="M17 17L21 21" stroke="#27272a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -67,11 +68,22 @@
             stroke="#27272a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
         <input id="searchInput" type="text" placeholder="Buscar serviços"
-          class="outline-none text-sm text-color-text w-full" onsubmit="window.location.href = '/search/' + this.value"
-          onkeydown="if (event.key === 'Enter') { window.location.href = '/search/' + this.value; }" />
+          class="outline-none text-sm text-color-text w-full"
+          onsubmit="if(this.value != '') { window.location.href = '/search/' + this.value}"
+          onkeydown="if (event.key === 'Enter') { if(this.value != '') { window.location.href = '/search/' + this.value; }}" />
     </div>
     </div>
   </header>
+
+  <script>
+    if (window.location.pathname.includes("/search/")) {
+
+      let valueSearch = decodeURIComponent(window.location.pathname.replace("/search/", ""));
+      if (valueSearch !== '/') {
+        document.getElementById("searchInput").value = valueSearch;
+      }
+    }
+  </script>
 </body>
 
 </html>

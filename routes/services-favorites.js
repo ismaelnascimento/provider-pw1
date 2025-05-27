@@ -15,6 +15,7 @@ router.get("/", function (req, res, next) {
   });
 
   res.render("index", {
+    search: "",
     isServicesFavorites: true,
     services: filteredServices,
     popularServices: [],

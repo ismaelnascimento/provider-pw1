@@ -22,7 +22,7 @@ router.get("/:categoryName", function (req, res, next) {
 
   res.render("index", {
     isServicesFavorites: false,
-
+    search: "",
     services: filteredServices,
     popularServices: popularServices,
     categories: categories,
