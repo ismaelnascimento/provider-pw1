@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= pageName %>
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'color-primary': 'var(--color-primary)',
+                        'color-primary-light': 'var(--color-primary-light)',
+                        'color-gray-light': 'var(--color-gray-light)',
+                        'color-gray-light-2': 'var(--color-gray-light-2)',
+                        'color-gray': 'var(--color-gray)',
+                        'color-bg': 'var(--color-bg)',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css" />
+    <link rel="icon" href="assets/logo.svg" type="image/x-icon" />
+</head>
+
+<body>
+    <div class="w-full h-dvh flex flex-col items-center gap-6 justify-center">
+        <div class="flex items-center gap-4">
+            <img src="/assets/logo.svg" alt="Logo" class="h-10 w-10" />
+
+            <h1 class="hidden md:block text-2xl font-semibold text-color-bg">Provider</h1>
+        </div>
+        <div class=" flex flex-col gap-4 w-96 h-fit p-8 bg-white rounded-lg border border-color-gray-light-2">
+            <h1 class="font-semibold text-center text-2xl text-color-bg">Registro</h1>
+
+            <div class="flex flex-row bg-color-gray-light w-full gap-2 p-2 rounded-lg">
+                <a href="/signup?r=0" class="<%- roleId == 0 ? " bg-color-primary text-white"
+                    : "bg-white text-color-bg border border-color-gray-light-2" -%> outline-none w-full h-10
+                    rounded-lg text-sm font-semibold flex items-center justify-center"
+                    type="button">Cliente</a>
+                <a href="/signup?r=1" class="<%- roleId == 1 ? " bg-color-primary text-white"
+                    : "bg-white text-color-bg border border-color-gray-light-2" -%> outline-none w-full h-10
+                    rounded-lg text-sm font-semibold flex items-center justify-center"
+                    type="button">Provedor</a>
+            </div>
+
+            <div class="flex flex-col gap-2 my-2">
+                <div class="flex flex-col gap-0.5">
+                    <label class="text-sm font-medium text-color-bg" for="input-username">Nome de
+                        usuário</label>
+                    <input
+                        class="placeholder-color-gray p-4 outline-2 outline-color-primary bg-white w-full text-color-bg h-10 rounded-lg text-sm font-medium border border-color-gray-light-2"
+                        id="input-username" type="text" placeholder="Digite o nome de usuário">
+                </div>
+                <div class="flex flex-col gap-0.5">
+                    <label class="text-sm font-medium text-color-bg" for="input-password">Senha</label>
+                    <input
+                        class="placeholder-color-gray p-4 outline-2 outline-color-primary bg-white w-full text-color-bg h-10 rounded-lg text-sm font-medium border border-color-gray-light-2"
+                        id="input-password" type="password" placeholder="Digite a sua senha">
+                </div>
+                <div class="flex flex-col gap-0.5">
+                    <label class="text-sm font-medium text-color-bg" for="input-location">Localização</label>
+                    <input
+                        class="placeholder-color-gray p-4 outline-2 outline-color-primary bg-white w-full text-color-bg h-10 rounded-lg text-sm font-medium border border-color-gray-light-2"
+                        id="input-location" type="password" placeholder="Ex: Pacajus, Ce, Bairro 5">
+                </div>
+            </div>
+
+            <p class="font-medium text-sm text-color-bg">Já tem uma conta? <a class="font-bold text-color-primary"
+                    href="/login?r=<%-roleId-%>">Login</a></p>
+
+            <button onclick="signup()"
+                class="hover:bg-color-bg outline-none bg-color-primary w-full text-white h-10 rounded-lg text-sm font-medium"
+                type="submit">Login</button>
+        </div>
+    </div>
+
+    <script>
+        if(!window.location.search) {
+            window.location.href = decodeURIComponent('/signup?r=0')
+        }
+        const signup = () => {
+            // GET INPUT INFOS
+            // FAZER A ÁRVORE NO FIGMA
+            // FAZER O RESTO DOS INPUTS
+            // FAZER O LOGIN
+            // COLOCAR O LOGIN PAR TODAS AS PÁGINAS
+            window.location.href = decodeURIComponent('/?u=ismaelnascimento&r=0')
+        }
+    </script>
+</body>
+
+</html>
