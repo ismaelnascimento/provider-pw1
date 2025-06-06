@@ -23,3 +23,5 @@ A atividade é individual.
 Enviar link do Github como resposta.
 
 <hr>
+
+Você pode usar um usuário provedor: <b>ismaelnascimento</b> ou um usuário cliente: <b>userclient1</b> para fazer login. Por enquanto não existe a verificação da senha, só do nome de usuário.
