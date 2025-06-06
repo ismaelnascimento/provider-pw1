@@ -72,6 +72,14 @@
           class="w-0 p-0 md:w-full focus:w-full outline-none text-sm text-color-text"
           onsubmit="if(this.value != '') { window.location.href = '/search/' + this.value + getSearchParams()}"
           onkeydown="if (event.key === 'Enter') { if(this.value != '') { window.location.href = '/search/' + this.value + getSearchParams(); }}" />
+
+        <a class="<%- search == '' ? 'hidden' : 'visible' %>  cursor-pointer w-5 h-5" href="/<%= getSearchParams() %>">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" width="24" height="24"
+            color="#000000" fill="none">
+            <path d="M19.0005 4.99988L5.00049 18.9999M5.00049 4.99988L19.0005 18.9999" stroke="#000000"
+              stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </a>
     </div>
     </div>
   </header>

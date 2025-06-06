@@ -19,7 +19,7 @@ var services = [
   {
     id: 2,
     name: "Reparo car",
-    category: categories[1],
+    category: categories[4],
     location: {
       street: "Rua 1",
       neighborhood: "Bairro 1",
