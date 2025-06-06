@@ -2,6 +2,7 @@ var categories = require("./categories");
 
 var services = [
   {
+    id: 1,
     name: "Senhor lima",
     category: categories[1],
     location: {
@@ -16,6 +17,7 @@ var services = [
     favorite: true,
   },
   {
+    id: 2,
     name: "Reparo car",
     category: categories[1],
     location: {
@@ -30,6 +32,7 @@ var services = [
     favorite: false,
   },
   {
+    id: 3,
     name: "Pedreiro do Zé",
     category: categories[2],
     location: {
@@ -44,6 +47,7 @@ var services = [
     favorite: false,
   },
   {
+    id: 4,
     name: "Faxina do João",
     category: categories[3],
     location: {
@@ -58,6 +62,7 @@ var services = [
     favorite: false,
   },
   {
+    id: 5,
     name: "Reparo flash",
     category: categories[4],
     location: {

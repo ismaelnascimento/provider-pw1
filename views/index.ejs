@@ -1,6 +1,6 @@
 <!-- HEADER -->
 <%- include("./partials/header.ejs") -%>
-  <div class="w-full flex flex-col md:flex-row flex-wrap pt-20">
+  <div class="w-full flex flex-col md:flex-row flex-wrap md:flex-nowrap  pt-20">
     <!-- SIDEBAR -->
     <%- include("./partials/sidebar.ejs") -%>
       <div class="flex flex-col flex-wrap px-10 py-8 gap-6">
@@ -8,7 +8,7 @@
         <% if (!(currentPath.includes("/favorites"))) { %>
           <ul class="flex flex-row items-center flex-wrap gap-12 overflow-x-auto">
             <% categories.forEach(function(category) {%>
-              <a href="<%= category.name.toLowerCase() === 'todos' ? '/' : '/category/' + category.name.toLowerCase() %>"
+              <a href="<%= category.name.toLowerCase() === 'todos' ? '/' + getSearchParams() : '/category/' + category.name.toLowerCase() + getSearchParams() %>"
                 class="flex flex-col items-center gap-1 w-fit h-fit justify-center cursor-pointer">
                 <div id="iconCategory" name="<%=category.name.toLowerCase()%>"
                   class="flex items-center justify-center w-16 h-16 rounded-full border border-color-gray-light-2 bg-white">
@@ -195,8 +195,13 @@
   </div>
 
   <script>
+    function getSearchParams() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.toString() ? '?' + urlParams.toString() : '';
+    }
+
     document.querySelectorAll("#buttonSidebar").forEach(function (buttonSidebar) {
-      if (buttonSidebar.getAttribute("href") === window.location.pathname || (window.location.pathname.includes("/category/") && buttonSidebar.getAttribute("href") === "/")) {
+      if (buttonSidebar.getAttribute("link") === window.location.pathname || (window.location.pathname.includes("/category/") && buttonSidebar.getAttribute("link") === "/")) {
         buttonSidebar.classList.remove("bg-white");
         buttonSidebar.classList.remove("border-color-gray-light-2");
         buttonSidebar.classList.remove("[&_*]:stroke-color-bg");

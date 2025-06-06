@@ -8,8 +8,8 @@ var servicesRouter = require("./routes/services");
 var servicesCategoryRouter = require("./routes/services-category");
 var servicesFavoritesRouter = require("./routes/services-favorites");
 var servicesSearchRouter = require("./routes/services-search");
-var loginRouter = require("./routes/login/login");
-var signUpRouter = require("./routes/login/signup");
+var loginRouter = require("./routes/user/login");
+var signUpRouter = require("./routes/user/signup");
 
 var app = express();
 
@@ -24,6 +24,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use((req, res, next) => {
   res.locals.currentPath = req.path;
+  res.locals.getSearchParams = () => {
+    const urlParams = new URLSearchParams(req.query);
+    return urlParams.toString() ? '?' + urlParams.toString() : '';
+  };
   next();
 })
 
