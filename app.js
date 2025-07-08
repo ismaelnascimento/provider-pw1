@@ -3,6 +3,17 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+var { MongoClient } = require("mongodb")
+require("dotenv").config();
+const URI = process.env.URI;
+const client = new MongoClient(URI);
+
+const db = client.db("provider")
+const dbUsers = db.collection("users")
+const dbServices = db.collection("services")
+const dbCategories = db.collection("categories")
+
+
 
 var servicesRouter = require("./routes/services");
 var servicesCategoryRouter = require("./routes/services-category");
