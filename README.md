@@ -1,27 +1,34 @@
 # Provider
-Um projeto web app da disciplina de Progamação Web 1 com o intuito de fornecer serviços locais.
+![image](https://github.com/user-attachments/assets/88f13eaa-33da-42da-b783-d1b20ea6a969)
 
-<hr>
+Um projeto web app da disciplina de Progamação Web 1 com o intuito de fornecer serviços populares e locais.
 
-<h2>Atividade N1</h2>
+## Tela inicial sem usuário
 
-Criar a estrutura básica de uma aplicação. Implementar tudo relacionado a parte visual, tais como, HTML, CSS, cores, modelos de página (templates), formulários, etc. Apenas na N2 serão implementadas as funcionalidades (autenticação, bancos de dados, integração com APIs, etc). Implementar as rotas utilizando o Nodejs (Express).
+### O usuário tem a possibilidade de visualizar os serviços populares e pesquisar por serviços
 
-1. A partir do tema definido, planejar o modelo básico (duas colunas, três colunas, fixo, fluido, etc);
-2. Planejar e implementar a paleta de cores a ser utilizada;
-3. Planejar e implementar as fontes que serão utilizadas;
-4. Definir e utilizar, se for o caso, um framework CSS (Bootstrap, por exemplo);
-5. Criar um HTML base como resultado dos ítens anteriores incluindo o CSS;
-6. Criar um diagrama de árvore invertida com as rotas que serão necessárias no site para servir como roteiro de implantação;
-7. Criar um projeto com Visual Studio ou usando a IDE de preferência para iniciar a implementação;
-8. Criar a infra-estrutura básica do site utilizando Nodejs, Express e Express-Generator (criar e identificar todas as rotas);
-9. Implantar em todas as rotas um modelo (template), de acordo com o ítem 5 e com o template engine de sua preferência (EJS, Pug, etc);
-10. Utilizar templates com partials para facilitar a manutenção
+![image](https://github.com/user-attachments/assets/7f0fd89a-1d4a-4015-8d3c-75c3a1c71962)
 
-A atividade é individual.
+## Tela de login do cliente
+![image](https://github.com/user-attachments/assets/79df693b-e7e6-4371-a999-8aa7b482c60c)
 
-Enviar link do Github como resposta.
+## Tela de login do provedor
+![image](https://github.com/user-attachments/assets/71c659bd-3ec8-4e08-b797-fd2d855f0f3b)
 
-<hr>
+## Tela de cadastro do cliente
+![image](https://github.com/user-attachments/assets/38308240-5ef9-4efb-98d4-a20003674598)
 
-Você pode usar um usuário provedor: <b>ismaelnascimento</b> ou um usuário cliente: <b>userclient1</b> para fazer login. Por enquanto não existe a verificação da senha, só do nome de usuário.
+## Tela de cadastro do provedor
+![image](https://github.com/user-attachments/assets/de68282b-957f-4936-a802-1bf76fde5082)
+
+## Tela inicial com o usuário cliente
+![image](https://github.com/user-attachments/assets/7b0ccd0c-7308-4792-ba71-8e20a413bea6)
+
+## Tela inicial com usuário provedor
+![image](https://github.com/user-attachments/assets/99734536-fbb5-4ecb-a664-4c0fdc2ff449)
+
+## Tela inicial com a pesquisa "pedreiro"
+![image](https://github.com/user-attachments/assets/4eb76619-ada1-4de7-99cc-67476bdd5775)
+
+
+Obs: Você pode usar um usuário provedor: <b>ismaelnascimento</b> ou um usuário cliente: <b>userclient1</b> para fazer login. Por enquanto não existe a verificação da senha, só do nome de usuário.
