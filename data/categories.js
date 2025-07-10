@@ -1,3 +1,5 @@
+//faxineiros, pedreiros, pintores de paredes, bombeiros hidráulicos, eletricistas, marceneiros, cuidadores de idosos, entre outros prestadores de serviço autônomo, eventos, diversos
+
 var categories = [
   {
     name: "Todos",
