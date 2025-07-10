@@ -20,7 +20,7 @@ class ServicesDAO {
     static async getServicesPopular(client) {
         const cursor = await client.find().project({ _id: 0 })
     }
-    static async insertServices(client, doc) {
+    static async insertService(client, doc) {
         const ok = await client.insertOne(doc)
         try {
             return ok
@@ -28,11 +28,22 @@ class ServicesDAO {
             console.log(e)
         }
     }
-    static async deleteService(client) {
-
+    static async deleteServiceById(client, id) {
+        const ok = await client.deleteOne(id)
+        try {
+            return ok
+        } catch (e) {
+            console.log(e)
+        }
     }
-    static async updateService(client) {
+    static async updateServiceById(client, id, doc) {
+        const docs = await client.updateOne(id, doc)
 
+        try {
+            return docs
+        } catch (e) {
+            console.log(e)
+        }
     }
 }
 
