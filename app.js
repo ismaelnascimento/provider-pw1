@@ -1,9 +1,11 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
-var { MongoClient } = require("mongodb")
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const session = require("express-session")
+const bcrypt = require("bcrypt")
+const { MongoClient } = require("mongodb")
 require("dotenv").config();
 const URI = process.env.URI;
 const client = new MongoClient(URI);
@@ -13,16 +15,14 @@ const dbUsers = db.collection("users")
 const dbServices = db.collection("services")
 const dbCategories = db.collection("categories")
 
+const servicesRouter = require("./routes/services");
+const servicesCategoryRouter = require("./routes/services-category");
+const servicesFavoritesRouter = require("./routes/services-favorites");
+const servicesSearchRouter = require("./routes/services-search");
+const loginRouter = require("./routes/user/login");
+const signUpRouter = require("./routes/user/signup");
 
-
-var servicesRouter = require("./routes/services");
-var servicesCategoryRouter = require("./routes/services-category");
-var servicesFavoritesRouter = require("./routes/services-favorites");
-var servicesSearchRouter = require("./routes/services-search");
-var loginRouter = require("./routes/user/login");
-var signUpRouter = require("./routes/user/signup");
-
-var app = express();
+const app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -31,6 +31,11 @@ app.set("view engine", "ejs");
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(session({
+  secret: process.env.SESSION_SECRET_KEY,
+  resave: true,
+  saveUninitialized: true,
+}))
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use((req, res, next) => {

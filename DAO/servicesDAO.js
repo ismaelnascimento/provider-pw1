@@ -10,15 +10,30 @@ class ServicesDAO {
     }
     static async getServicesByLocal(client) {
         const cursor = await client.find().project({ _id: 0 })
+        // https://www.mongodb.com/resources/basics/databases/database-search
+        // https://www.mongodb.com/docs/manual/geospatial-queries/
     }
     static async getServicesBySearch(client) {
         const cursor = await client.find().project({ _id: 0 })
+        // https://www.mongodb.com/resources/basics/full-text-search
     }
     static async getServicesFavorites(client) {
-        const cursor = await client.find().project({ _id: 0 })
+        const cursor = await client.find({ favorite: true }).project({ _id: 0 })
+        try {
+            const results = await cursor.toArray();
+            return results
+        } catch (e) {
+            console.log(e)
+        }
     }
     static async getServicesPopular(client) {
-        const cursor = await client.find().project({ _id: 0 })
+        const cursor = await client.find({ stars: { $gt: 4.0 } }).project({ _id: 0 })
+        try {
+            const results = await cursor.toArray();
+            return results
+        } catch (e) {
+            console.log(e)
+        }
     }
     static async insertService(client, doc) {
         const ok = await client.insertOne(doc)
