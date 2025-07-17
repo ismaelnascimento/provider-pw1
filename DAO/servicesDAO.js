@@ -10,6 +10,7 @@ class ServicesDAO {
     }
     static async getServicesByLocal(client) {
         const cursor = await client.find().project({ _id: 0 })
+        // https://leafletjs.com/examples/quick-start/
         // https://www.mongodb.com/resources/basics/databases/database-search
         // https://www.mongodb.com/docs/manual/geospatial-queries/
     }
