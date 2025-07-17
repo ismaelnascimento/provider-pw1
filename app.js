@@ -4,16 +4,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const session = require("express-session")
-const bcrypt = require("bcrypt")
-const { MongoClient } = require("mongodb")
 require("dotenv").config();
-const URI = process.env.URI;
-const client = new MongoClient(URI);
-
-const db = client.db("provider")
-const dbUsers = db.collection("users")
-const dbServices = db.collection("services")
-const dbCategories = db.collection("categories")
 
 const servicesRouter = require("./routes/services");
 const servicesCategoryRouter = require("./routes/services-category");

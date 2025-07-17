@@ -45,7 +45,7 @@ router.get("/", function (req, res, next) {
 
   const getUser = username
     ? {
-        userName: username,
+        username: username,
         roleId: roleId,
         // 0 -> client
         // 1 -> service provider

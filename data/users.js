@@ -4,7 +4,8 @@ const services = require("./services");
 
 var users = [
   {
-    userName: "ismaelnascimento",
+    id: 1,
+    username: "ismaelnascimento",
     roleId: 1,
     location: {
       street: "Rua 1",
@@ -15,7 +16,8 @@ var users = [
     service: services[0],
   },
   {
-    userName: "josesilva",
+    id: 2,
+    username: "josesilva",
     roleId: 1,
     location: {
       street: "Rua 1",
@@ -26,7 +28,8 @@ var users = [
     service: services[1],
   },
   {
-    userName: "zezinho123",
+    id: 3,
+    username: "zezinho123",
     roleId: 1,
     location: {
       street: "Rua 2",
@@ -37,7 +40,8 @@ var users = [
     service: services[2],
   },
   {
-    userName: "joaoalmeida",
+    id: 4,
+    username: "joaoalmeida",
     roleId: 1,
     location: {
       street: "Rua 2",
@@ -48,7 +52,8 @@ var users = [
     service: services[3],
   },
   {
-    userName: "hugoribeiro",
+    id: 5,
+    username: "hugoribeiro",
     roleId: 1,
     location: {
       street: "Rua 3",
@@ -59,7 +64,8 @@ var users = [
     service: services[4],
   },
   {
-    userName: "userclient1",
+    id: 6,
+    username: "userclient1",
     roleId: 0,
     location: {
       street: "Rua 1",
@@ -70,7 +76,8 @@ var users = [
     service: null,
   },
   {
-    userName: "userclient2",
+    id: 7,
+    username: "userclient2",
     roleId: 0,
     location: {
       street: "Rua 2",
@@ -83,7 +90,7 @@ var users = [
 ];
 
 const getUserByUsername = (username) => {
-  return users.find((user) => user.userName === username);
+  return users.find((user) => user.username === username);
 };
 
 const user = null;

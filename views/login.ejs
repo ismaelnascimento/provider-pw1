@@ -40,7 +40,7 @@
 
             <h1 class="text-2xl font-semibold text-color-bg">Provider</h1>
         </div>
-        <form onsubmit="(function(e){ e.preventDefault(); return false; })(event)"
+        <form action="/login?r=<%- roleId %>" method="post"
             class="flex flex-col gap-4 w-full md:w-96 h-fit p-8 bg-white rounded-lg border border-color-gray-light-2">
             <div class="flex items-center gap-2 justify-center">
                 <a href="/">
@@ -70,13 +70,13 @@
                         usuário</label>
                     <input
                         class="placeholder-color-gray p-4 outline-2 outline-color-primary bg-white w-full text-color-bg h-10 rounded-lg text-sm font-medium border border-color-gray-light-2"
-                        id="input-username" type="username" placeholder="Digite o nome de usuário">
+                        id="input-username" type="username" name="username" placeholder="Digite o nome de usuário">
                 </div>
                 <div class="flex flex-col gap-0.5">
                     <label class="text-sm font-medium text-color-bg" for="input-password">Senha</label>
                     <input
                         class="placeholder-color-gray p-4 outline-2 outline-color-primary bg-white w-full text-color-bg h-10 rounded-lg text-sm font-medium border border-color-gray-light-2"
-                        id="input-password" autocomplete="current-password" type="password"
+                        id="input-password" autocomplete="current-password" name="password" type="password"
                         placeholder="Digite a sua senha">
                 </div>
             </div>
@@ -84,7 +84,7 @@
             <p class="font-medium text-sm text-color-bg">Não tem uma conta? <a class="font-bold text-color-primary"
                     href="/signup?&r=<%-roleId-%>">Começar</a></p>
 
-            <button onclick="signup()"
+            <button
                 class="hover:bg-color-bg outline-none bg-color-primary w-full text-white h-10 rounded-lg text-sm font-medium"
                 type="submit">Login</button>
     </div>
@@ -108,32 +108,26 @@
             window.location.href = decodeURIComponent('/login?r=0')
         }
 
-        const signup = () => {
-            const username = document.querySelector('#input-username').value
+        // const signup = () => {
+        //     const username = document.querySelector('#input-username').value
 
-            if (!username) {
-                alert('Por favor, preencha todos os campos.')
-                return
-            }
+        //     if (!username) {
+        //         alert('Por favor, preencha todos os campos.')
+        //         return
+        //     }
 
-            let users = JSON.parse(decodeURIComponent('<%- encodeURIComponent(JSON.stringify(users || [])) %>'));
-            if (!users) {
-                users = [];
-            }
+        //     let users = JSON.parse(decodeURIComponent('<%- encodeURIComponent(JSON.stringify(users || [])) %>'));
+        //     if (!users) {
+        //         users = [];
+        //     }
 
-            if (!users.some(user => user.userName === username && user.roleId == parseInt(parseQueryString()["r"]))) {
-                alert('Este usuário não existe ou não corresponde ao tipo de usuário selecionado.')
-                return
-            }
+        //     if (!users.some(user => user.username === username && user.roleId == parseInt(parseQueryString()["r"]))) {
+        //         alert('Este usuário não existe ou não corresponde ao tipo de usuário selecionado.')
+        //         return
+        //     }
 
-            window.location.href = decodeURIComponent(`/?u=${username}&r=${parseQueryString()["r"]}`);
-        }
-
-        function getSearchParams() {
-            const urlParams = new URLSearchParams(window.location.search);
-            urlParams.delete('r');
-            return urlParams.toString() ? '?' + urlParams.toString() : '';
-        }
+        //     window.location.href = decodeURIComponent(`/?u=${username}&r=${parseQueryString()["r"]}`);
+        // }
     </script>
 </body>
 

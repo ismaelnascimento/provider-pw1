@@ -180,7 +180,7 @@
                 return
             }
 
-            if (users.some(user => user.userName === username && user.roleId === parseInt(parseQueryString()["r"]))) {
+            if (users.some(user => user.username === username && user.roleId === parseInt(parseQueryString()["r"]))) {
                 alert('Este usuário já existe. Por favor, escolha outro nome de usuário.')
                 return
             }

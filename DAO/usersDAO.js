@@ -18,10 +18,8 @@ class UsersDAO {
         }
     }
     static async getUser(client, find) {
-        // find: { email: email }
         const cursor = await client.findOne(find);
         try {
-            // const result = await cursor;
             return cursor
         } catch (e) {
             console.log(e)
