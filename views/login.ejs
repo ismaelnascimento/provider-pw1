@@ -80,13 +80,17 @@
                         placeholder="Digite a sua senha">
                 </div>
             </div>
+            
+            <% if (error != null) { %>
+                <%- include("./partials/error.ejs", { error: error }) -%>
+            <% } %>
 
-            <p class="font-medium text-sm text-color-bg">Não tem uma conta? <a class="font-bold text-color-primary"
-                    href="/signup?&r=<%-roleId-%>">Começar</a></p>
+            <p class="font-medium text-sm text-color-bg">Não tem uma conta? <a
+                                class="font-bold text-color-primary" href="/signup?&r=<%-roleId-%>">Começar</a></p>
 
             <button
-                class="hover:bg-color-bg outline-none bg-color-primary w-full text-white h-10 rounded-lg text-sm font-medium"
-                type="submit">Login</button>
+                            class="hover:bg-color-bg outline-none bg-color-primary w-full text-white h-10 rounded-lg text-sm font-medium"
+                            type="submit">Login</button>
     </div>
     </div>
 
@@ -107,27 +111,6 @@
         if (parseQueryString()["r"] != 0 && parseQueryString()["r"] != 1) {
             window.location.href = decodeURIComponent('/login?r=0')
         }
-
-        // const signup = () => {
-        //     const username = document.querySelector('#input-username').value
-
-        //     if (!username) {
-        //         alert('Por favor, preencha todos os campos.')
-        //         return
-        //     }
-
-        //     let users = JSON.parse(decodeURIComponent('<%- encodeURIComponent(JSON.stringify(users || [])) %>'));
-        //     if (!users) {
-        //         users = [];
-        //     }
-
-        //     if (!users.some(user => user.username === username && user.roleId == parseInt(parseQueryString()["r"]))) {
-        //         alert('Este usuário não existe ou não corresponde ao tipo de usuário selecionado.')
-        //         return
-        //     }
-
-        //     window.location.href = decodeURIComponent(`/?u=${username}&r=${parseQueryString()["r"]}`);
-        // }
     </script>
 </body>
 
