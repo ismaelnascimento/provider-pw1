@@ -8,6 +8,15 @@ class ServicesDAO {
             console.log(e)
         }
     }
+    static async getFavoritesByService(client, serviceId) {
+        const cursor = await client.find({ serviceId }).project({ _id: 0 })
+        try {
+            const results = await cursor.toArray();
+            return results
+        } catch (e) {
+            console.log(e)
+        }
+    }
     static async getServicesByLocal(client) {
         const cursor = await client.find().project({ _id: 0 })
         // https://leafletjs.com/examples/quick-start/
@@ -20,6 +29,25 @@ class ServicesDAO {
     }
     static async getServicesFavorites(client) {
         const cursor = await client.find({ favorite: true }).project({ _id: 0 })
+        // db.favorites.aggregate([
+        //   {
+        //     $match: { userId: ObjectId("userA") } // Filtra pelos favoritos do usuário logado
+        //   },
+        //   {
+        //     $lookup: {
+        //       from: "services", // A outra coleção
+        //       localField: "serviceId", // Campo da coleção 'favorites'
+        //       foreignField: "_id", // Campo da coleção 'services'
+        //       as: "serviceDetails" // Nome do novo array com os detalhes do serviço
+        //     }
+        //   },
+        //   {
+        //     $unwind: "$serviceDetails" // Desconstrói o array para ter um objeto por resultado
+        //   },
+        //   {
+        //     $replaceRoot: { newRoot: "$serviceDetails" } // Promove os detalhes do serviço para o nível raiz
+        //   }
+        // ])
         try {
             const results = await cursor.toArray();
             return results

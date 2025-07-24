@@ -25,22 +25,7 @@ router.post("/", async (req, res) => {
     }
 
     const user = await UsersDAO.getUser(dbUsers, { username, roleId });
-    /*
-    {
-      "username": "ismaelnascimento",
-      "roleId": 0,
-      password: login
-      "location": {
-        "street": "Rua 1",
-        "neighborhood": "Bairro 1",
-        "city": "Ceará",
-        "state": "Pacajus",
-        "lat": -3.744062,
-        "lng": -38.535774
-      },
-      "service": null
-    }
-    */
+
     if (!user) {
       res.render("login", {
         pageName: "Login - Provider",

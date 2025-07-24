@@ -11,6 +11,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -34,13 +36,13 @@
 </head>
 
 <body>
-    <div class="w-full h-dvh flex flex-col items-center gap-6 justify-center">
+    <div class="w-full h-dvh flex flex-col items-center gap-6 mt-12 <%- roleId == 1 ? " mb-32" : "mb-0" -%>">
         <div class="flex items-center gap-4">
             <img src="/assets/logo.svg" alt="Logo" class="h-10 w-10" />
 
             <h1 class="text-2xl font-semibold text-color-bg">Provider</h1>
         </div>
-        <form action="/register?r=<%- roleId %>" method="post"
+        <form action="/signup?r=<%- roleId %>" method="post"
             class="flex flex-col gap-4 w-full md:w-fit h-fit p-8 bg-white rounded-lg border border-color-gray-light-2">
 
             <div class="flex items-center gap-2 justify-center">
@@ -81,7 +83,7 @@
                         placeholder="Digite a sua senha">
                 </div>
                 <div class="flex flex-col gap-0.5">
-                    <label class="text-sm font-medium text-color-bg">Localização para encontrar serviços</label>
+                    <label class="text-sm font-medium text-color-bg">Localização do seu serviço</label>
                     <div class="flex items-center gap-2">
                         <input
                             class="placeholder-color-gray p-4 outline-2 outline-color-primary bg-white w-full md:w-24  text-color-bg h-10 rounded-lg text-sm font-medium border border-color-gray-light-2"
@@ -96,6 +98,12 @@
                         <input
                             class="placeholder-color-gray p-4 outline-2 outline-color-primary bg-white w-full md:w-24 text-color-bg h-10 rounded-lg text-sm font-medium border border-color-gray-light-2"
                             id="input-location-street" name="locationStreet" type="text" placeholder="Rua">
+                    </div>
+
+                    <div class="my-1">
+                        <label class="text-sm font-medium text-color-bg">Clique no mapa para definir a
+                            localização</label>
+                        <div id="map" class="w-full h-64 rounded-lg border border-color-gray-light-2"></div>
                     </div>
                 </div>
                 <% if (roleId==1) { %>
@@ -131,16 +139,19 @@
                     <% } %>
             </div>
 
-            <% if (error != null) { %>
+            <input type="hidden" name="locationLatitude" id="latitude">
+            <input type="hidden" name="locationLongitude" id="longitude">
+
+            <% if (error !=null) { %>
                 <%- include("./partials/error.ejs", { error: error }) -%>
-            <% } %>
+                    <% } %>
 
-            <p class="font-medium text-sm text-color-bg">Já tem uma conta? <a class="font-bold text-color-primary"
-                    href="/login?r=<%-roleId-%>">Login</a></p>
+                        <p class="font-medium text-sm text-color-bg">Já tem uma conta? <a
+                                class="font-bold text-color-primary" href="/login?r=<%-roleId-%>">Login</a></p>
 
-            <button
-                class="hover:bg-color-bg outline-none bg-color-primary w-full text-white h-10 rounded-lg text-sm font-medium"
-                type="submit">Começar</button>
+                        <button
+                            class="hover:bg-color-bg outline-none bg-color-primary w-full text-white h-10 rounded-lg text-sm font-medium"
+                            type="submit">Começar</button>
     </div>
     </div>
 
@@ -160,6 +171,50 @@
 
         if (parseQueryString()["r"] != 0 && parseQueryString()["r"] != 1) {
             window.location.href = decodeURIComponent('/signup?r=0')
+        }
+
+        function updateInputs(lat, lng) {
+            document.getElementById('latitude').value = lat;
+            document.getElementById('longitude').value = lng;
+        }
+
+        let map;
+
+        function initMap(lat, lng) {
+            map = L.map('map').setView([lat, lng], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            let marker = L.marker([lat, lng], { draggable: true }).addTo(map);
+
+            updateInputs(lat, lng);
+
+            marker.on('dragend', function (e) {
+                const position = e.target.getLatLng();
+                updateInputs(position.lat, position.lng);
+            });
+
+            map.on('click', function (e) {
+                const clickedLat = e.latlng.lat;
+                const clickedLng = e.latlng.lng;
+                marker.setLatLng([clickedLat, clickedLng]);
+                updateInputs(clickedLat, clickedLng);
+            });
+        }
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    initMap(position.coords.latitude, position.coords.longitude);
+                },
+                function () {
+                    // location of Ceará
+                    initMap(-3.71839, -38.5434);
+                }
+            );
+        } else {
+            initMap(-3.71839, -38.5434);
         }
     </script>
 </body>
