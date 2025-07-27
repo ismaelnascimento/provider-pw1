@@ -17,11 +17,28 @@ class ServicesDAO {
             console.log(e)
         }
     }
-    static async getServicesByLocal(client) {
-        const cursor = await client.find().project({ _id: 0 })
+    static async getServicesByLocal(client, location) {
+        const cursor = await client.find({
+            location: {
+                $near: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [location.longitude, location.latitude]
+                    },
+                    $maxDistance: location.maxDistance
+                }
+            }
+        }).project({ _id: 0 })
         // https://leafletjs.com/examples/quick-start/
         // https://www.mongodb.com/resources/basics/databases/database-search
         // https://www.mongodb.com/docs/manual/geospatial-queries/
+        try {
+            const results = await cursor.toArray();
+            console.log(results)
+            return results
+        } catch (e) {
+            console.log(e)
+        }
     }
     static async getServicesBySearch(client) {
         const cursor = await client.find().project({ _id: 0 })

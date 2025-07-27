@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
 
   try {
     if (!username || !password) {
-      res.render("login", {
+      return res.render("login", {
         pageName: "Login - Provider",
         roleId: req.query.r,
         error: "Preencha todos os campos.",
@@ -27,7 +27,7 @@ router.post("/", async (req, res) => {
     const user = await UsersDAO.getUser(dbUsers, { username, roleId });
 
     if (!user) {
-      res.render("login", {
+      return res.render("login", {
         pageName: "Login - Provider",
         roleId: req.query.r,
         error: "Nome de usuário incorreto. Tente novamente.",
@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      res.render("login", {
+      return res.render("login", {
         pageName: "Login - Provider",
         roleId: req.query.r,
         error: "Senha incorreta. Tente novamente.",
@@ -45,22 +45,17 @@ router.post("/", async (req, res) => {
 
     req.session.user = user;
     res.redirect('/');
-    console.log("Login feito com succeso!")
+    console.log("Login feito com sucessoo!")
+    console.log(req.session.user)
   } catch (err) {
     console.log("Ocorreu um erro ao fazer login:")
     console.log(err)
 
-    res.render("login", {
+    return res.render("login", {
       pageName: "Login - Provider",
       roleId: req.query.r,
       error: `Ocorreu um erro de servidor: ${err}`,
     });
   }
-
-  res.render("login", {
-    pageName: "Login - Provider",
-    roleId: req.query.r,
-    error: null,
-  });
 })
 module.exports = router;

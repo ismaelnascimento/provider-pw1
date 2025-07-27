@@ -7,74 +7,16 @@ var router = express.Router();
 /* GET search listing. */
 
 router.get("/:search", function (req, res, next) {
-  const {
-    u: username,
-    r: roleId,
-    lc: locationCity,
-    ls: locationState,
-    ln: locationNeighborhood,
-    lst: locationStreet,
-    si: serviceId,
-    sn: serviceName,
-    sc: serviceCategory,
-    sl: serviceLink,
-  } = req.query;
+  const getUser = req.session.user || user;
 
-  const getServiceSearch =
-    !serviceId && roleId == 1
-      ? getUserByUsername(username).service
-      : serviceId && roleId == 1
-      ? {
-          id: serviceId,
-          name: serviceName || "Serviço sem nome",
-          category: categories.find((cat) => cat.name === serviceCategory) || {
-            name: "Todos",
-          },
-          link: serviceLink || "",
-          location: {
-            city: locationCity || "",
-            state: locationState || "",
-            neighborhood: locationNeighborhood || "",
-            street: locationStreet || "",
-          },
-          contact: req.query.sl || "",
-          stars: 0,
-          favorite: false,
-        }
-      : null;
-
-  const getUser = username
-    ? {
-        username: username,
-        roleId: roleId,
-        // 0 -> client
-        // 1 -> service provider
-        location: getUserByUsername(username)?.location || {
-          state: locationState || "",
-          city: locationCity || "",
-          neighborhood: locationNeighborhood || "",
-          street: locationStreet || "",
-        },
-        service: getServiceSearch,
-      }
-    : user;
-
-  const userLocation = getUser?.location ?? {
-    state: locationState || "",
-    city: locationCity || "",
-    neighborhood: locationNeighborhood || "",
-    street: locationStreet || "",
+  const userLocation = getUser?.location || {
+    state: "",
+    city: "",
+    neighborhood: "",
+    street: "",
   };
 
   const userLocationStr = `${userLocation.state}, ${userLocation.city}, ${userLocation.neighborhood}, ${userLocation.street}`;
-
-  if (serviceId) {
-    const newService = getServiceSearch;
-
-    if (!services.some((service) => service.id === serviceId)) {
-      services.push(newService);
-    }
-  }
 
   const filteredServices = services.filter((service) => {
     const search = req.params.search.toLowerCase();
