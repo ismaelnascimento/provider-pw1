@@ -24,7 +24,7 @@
         <!-- User not logged in -->
         <div class="mt-4 flex flex-col gap-2">
             <a href="/login?r=<%= user ? user.roleId : 0 %>"
-                class="border border-color-gray-light-2 flex justify-center items-center rounded-lg px-4 h-12 hover:bg-color-light-gray bg-color-primary [&_*]:text-white">
+                class="hover:bg-color-bg cursor-pointer border border-color-gray-light-2 flex justify-center items-center rounded-lg px-4 h-12 hover:bg-color-light-gray bg-color-primary [&_*]:text-white">
                 <p class="text-white text-sm font-semibold">Login</p>
             </a>
 
@@ -38,7 +38,7 @@
                         class="text-color-primary font-bold">provedor</span> de
                     serviço?</p>
                 <a href="/signup?&r=1"
-                    class="border border-color-gray-light-2 flex justify-center items-center rounded-lg px-4 h-12 hover:bg-color-light-gray bg-color-primary [&_*]:text-white">
+                    class="hover:bg-color-bg cursor-pointer border border-color-gray-light-2 flex justify-center items-center rounded-lg px-4 h-12 hover:bg-color-light-gray bg-color-primary [&_*]:text-white">
                     <p class="text-white text-sm font-semibold">Começar</p>
                 </a>
             </div>

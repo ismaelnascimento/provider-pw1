@@ -72,7 +72,7 @@ router.post("/", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
     let newUser;
 
-    const location = { type: "Point", coordinates: [locationLongitude, locationLatitude], city: locationCity, neighborhood: locationNeighborhood, state: locationState, street: locationStreet }
+    const location = { type: "Point", coordinates: [parseFloat(locationLongitude), parseFloat(locationLatitude)], city: locationCity, neighborhood: locationNeighborhood, state: locationState, street: locationStreet }
     const generateId = crypto.randomUUID();
     const user = { id: generateId, username, roleId, password: hashedPassword, service: null, location, createdAt: new Date() };
 

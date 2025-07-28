@@ -1,24 +1,6 @@
 class ServicesDAO {
-    static async getAllServices(client) {
-        const cursor = await client.find().project({ _id: 0 })
-        try {
-            const results = await cursor.toArray();
-            return results
-        } catch (e) {
-            console.log(e)
-        }
-    }
-    static async getFavoritesByService(client, serviceId) {
-        const cursor = await client.find({ serviceId }).project({ _id: 0 })
-        try {
-            const results = await cursor.toArray();
-            return results
-        } catch (e) {
-            console.log(e)
-        }
-    }
-    static async getServicesByLocal(client, location) {
-        const cursor = await client.find({
+    static filterLocation(location) {
+        return {
             location: {
                 $near: {
                     $geometry: {
@@ -28,10 +10,10 @@ class ServicesDAO {
                     $maxDistance: location.maxDistance
                 }
             }
-        }).project({ _id: 0 })
-        // https://leafletjs.com/examples/quick-start/
-        // https://www.mongodb.com/resources/basics/databases/database-search
-        // https://www.mongodb.com/docs/manual/geospatial-queries/
+        }
+    }
+    static async getAllServicesByFilter(client, filter) {
+        const cursor = await client.find(filter).project({ _id: 0 })
         try {
             const results = await cursor.toArray();
             console.log(results)
@@ -39,6 +21,22 @@ class ServicesDAO {
         } catch (e) {
             console.log(e)
         }
+    }
+    static async getFavoritesByService(client, serviceId) {
+        return await getAllServicesByFilter(client, { serviceId: serviceId })
+    }
+    static async getServicesByLocal(client, location) {
+        // dbServices.createIndex({ "location": "2dsphere" })
+        return await getAllServicesByFilter(client, ServicesDAO.filterLocation(location))
+        // https://leafletjs.com/examples/quick-start/
+        // https://www.mongodb.com/resources/basics/databases/database-search
+        // https://www.mongodb.com/docs/manual/geospatial-queries/
+    }
+    static async getServicesByLocalAndCategory(client, location, category) {
+        return await getAllServicesByFilter(client, {
+            ...ServicesDAO.filterLocation(location),
+            category: category
+        })
     }
     static async getServicesBySearch(client) {
         const cursor = await client.find().project({ _id: 0 })
@@ -73,7 +71,7 @@ class ServicesDAO {
         }
     }
     static async getServicesPopular(client) {
-        const cursor = await client.find({ stars: { $gt: 4.0 } }).project({ _id: 0 })
+        const cursor = await client.find({ stars: { $gte: 4.0 } }).project({ _id: 0 })
         try {
             const results = await cursor.toArray();
             return results
