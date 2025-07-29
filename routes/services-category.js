@@ -23,7 +23,7 @@ router.get("/:categoryName", async function (req, res, next) {
   const filteredServices = userLocation?.coordinates ? await ServicesDAO.getServicesByLocalAndCategory(dbServices, {
     latitude: userLocation?.coordinates[1],
     longitude: userLocation?.coordinates[0],
-    maxDistance: 10000
+    maxDistance: 8000
   }, decodeURIComponent(req.params.categoryName)) : await ServicesDAO.getServicesByLocalAndCategory(dbServices, null, decodeURIComponent(req.params.categoryName));
 
   res.render("index", {

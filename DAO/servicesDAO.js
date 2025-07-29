@@ -31,7 +31,7 @@ class ServicesDAO {
         return await ServicesDAO.getAllServicesByFilter(client, ServicesDAO.filterLocation(location))
     }
     static async getServicesByLocalAndCategory(client, location, category) {
-        if (location?.coordinates) {
+        if (location) {
             return await ServicesDAO.getAllServicesByFilter(client, {
                 ...ServicesDAO.filterLocation(location),
                 category: { $regex: '^' + category + '$', $options: 'i' }
@@ -176,25 +176,25 @@ class ServicesDAO {
     static async updateServiceStars(client, serviceId) {
         try {
             const favoritesCount = await dbFavorites.countDocuments({ serviceId: new ObjectId(serviceId) });
-            
+
             const uniqueUsersCursor = await dbFavorites.aggregate([
                 { $group: { _id: "$userId" } },
                 { $count: "uniqueUsers" }
             ]);
-            
+
             const uniqueUsersResult = await uniqueUsersCursor.toArray();
             const totalUniqueUsers = uniqueUsersResult.length > 0 ? uniqueUsersResult[0].uniqueUsers : 1;
-            
+
             const starRating = Math.min(5, Math.max(1, (favoritesCount / totalUniqueUsers) * 5));
-            
+
             const stars = Math.round(starRating * 10) / 10;
-            
+
             await this.updateServiceById(
                 client,
                 { _id: new ObjectId(serviceId) },
                 { $set: { stars: stars } }
             );
-            
+
             return stars;
         } catch (e) {
             console.error("Error updating service stars:", e);
