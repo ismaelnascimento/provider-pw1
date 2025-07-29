@@ -1,16 +1,15 @@
 var express = require("express");
 var categories = require("../data/categories");
-var services = require("../data/services");
-// const { user } = require("../data/users");
 const ServicesDAO = require("../DAO/servicesDAO");
-const { dbServices } = require("../database");
+const { dbServices, dbFavorites } = require("../database");
+const { ObjectId } = require("mongodb");
+var crypto = require("crypto");
 
 var router = express.Router();
 
 /* GET services listing. */
 router.get("/", async function (req, res, next) {
   const getUser = req?.session?.user;
-  console.log("User session:", getUser);
   const userLocation = getUser?.location || {
     type: "Point",
     state: "",
@@ -36,23 +35,6 @@ router.get("/", async function (req, res, next) {
     }
   }
 
-  if (!filteredServices || filteredServices.length === 0) {
-    filteredServices = services.filter((service) => {
-      const serviceLocation = service.location || {};
-
-      return (
-        (userLocation.city && serviceLocation.city &&
-          userLocation.city.toLowerCase().includes(serviceLocation.city.toLowerCase())) ||
-        (userLocation.state && serviceLocation.state &&
-          userLocation.state.toLowerCase().includes(serviceLocation.state.toLowerCase())) ||
-        (userLocation.neighborhood && serviceLocation.neighborhood &&
-          userLocation.neighborhood.toLowerCase().includes(serviceLocation.neighborhood.toLowerCase())) ||
-        (userLocation.street && serviceLocation.street &&
-          userLocation.street.toLowerCase().includes(serviceLocation.street.toLowerCase()))
-      );
-    });
-  }
-
   const popularServicesDao = await ServicesDAO.getServicesPopular(dbServices)
 
   const popularServices = popularServicesDao.filter((service) => {
@@ -66,12 +48,75 @@ router.get("/", async function (req, res, next) {
   res.render("index", {
     search: "",
     isServicesFavorites: false,
-    services: filteredServices,
-    popularServices: popularServices,
+    services: await ServicesDAO.servicesWithFavorites(filteredServices, getUser),
+    popularServices: await ServicesDAO.servicesWithFavorites(popularServices, getUser),
     categories: categories,
     user: getUser,
     userLocationStr,
   });
 });
+
+router.post("/service/:serviceId/favorite", async function (req, res, next) {
+  const { serviceId } = req.params;
+
+  const getUser = req?.session?.user;
+
+  if (getUser) {
+    const generateId = crypto.randomUUID();
+    await ServicesDAO.insertFavoriteByService(dbFavorites, {
+      id: generateId,
+      userId: getUser.id,
+      serviceId: new ObjectId(serviceId),
+      createdAt: new Date()
+    });
+    
+    // Update the service stars based on favorites
+    await updateServiceStars(serviceId);
+  }
+
+  res.redirect("/");
+});
+
+router.delete("/service/:serviceId/favorite", async function (req, res, next) {
+  const { serviceId } = req.params;
+
+  const getUser = req?.session?.user;
+
+  if (getUser) {
+    await ServicesDAO.deleteFavoriteById(dbFavorites, getUser.id, serviceId);
+    
+    // Update the service stars based on favorites
+    await updateServiceStars(serviceId);
+  }
+
+  res.redirect("/");
+});
+
+// Helper function to update service stars
+async function updateServiceStars(serviceId) {
+  try {
+    // Get total number of favorites for this service
+    const favoritesCount = await dbFavorites.countDocuments({ serviceId: new ObjectId(serviceId) });
+    
+    // Calculate the star rating (1 favorite = 1 star, max 5 stars)
+    // You can adjust this formula based on your requirements
+    const totalUsers = await dbFavorites.distinct('userId').length || 1;
+    const starRating = Math.min(5, Math.max(1, (favoritesCount / totalUsers) * 5));
+    
+    // Round to one decimal place
+    const stars = Math.round(starRating * 10) / 10;
+    
+    // Update the service's star rating
+    await ServicesDAO.updateServiceById(
+      dbServices,
+      { _id: new ObjectId(serviceId) },
+      { $set: { stars: stars } }
+    );
+    
+    console.log(`Updated service ${serviceId} stars to ${stars}`);
+  } catch (err) {
+    console.error("Error updating service stars:", err);
+  }
+}
 
 module.exports = router;

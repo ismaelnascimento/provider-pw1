@@ -40,7 +40,7 @@
     </div>
 
     <div class="flex items-center gap-4">
-      <a href="/login?r=<%- user ? user.roleId : 0 -%>" id="location"
+      <a href="<%= user ? '/location-edit' : '/login' %>" id="location"
         class="flex items-center text-sm font-normal text-white gap-1 cursor-pointer">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#ffffff" fill="none">
           <path

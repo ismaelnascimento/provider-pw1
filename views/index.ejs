@@ -24,26 +24,40 @@
           <% } %>
             <!-- SERVICES -->
             <div class="flex flex-wrap flex-col gap-5">
-              <% if (services.length> 0) { %>
-                <h1 class="font-bold text-3xl text-color-bg">
-                  <%= currentPath.includes("/search") ? 'Resultados da pesquisa' : isServicesFavorites===true
-                    ? 'Serviços favoritos' : 'Serviços na sua região' %>
-                </h1>
+              <% if (services.length <=0) { %>
+                <p class="items-center justify-start h-24 text-left gap-2 flex font-medium text-base text-gray-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26" color="#6a7282"
+                    fill="none">
+                    <path
+                      d="M19.4173 15.7133C23.368 10.7038 22.3007 5.73508 19.4626 3.99415C16.7809 2.34923 14.4404 3.01211 13.0344 4.06801L11.9998 4.84158M19.4173 15.7133C18.469 16.9156 17.2317 18.1204 15.6605 19.2834C14.1143 20.4278 13.3412 21 12 21C10.6588 21 9.88572 20.4278 8.33953 19.2834C0.22172 13.2749 1.01807 6.15293 4.53744 3.99415C7.21909 2.34923 9.55962 3.01211 10.9656 4.06801L11.9998 4.84158M19.4173 15.7133L13.8921 9.44479C13.6659 9.1882 13.2873 9.13296 12.9972 9.31424L10.8111 10.6806C10.0418 11.1614 9.04334 11.0532 8.3949 10.4187C7.53837 9.58062 7.62479 8.17769 8.5777 7.45106L11.9998 4.84158"
+                      stroke="#6a7282" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg>
+                  <%= currentPath.includes("/search") ? 'Nenhum resultado encontrado' : isServicesFavorites===true
+                    ? 'Nenhum serviço favorito' : 'Nenhum serviço encontrado na sua região' %>
+                </p>
                 <% } %>
-                  <div class="flex align-center flex-col md:flex-row flex-wrap gap-4">
-                    <% services.forEach(function(service) {%>
-                      <%- include("./partials/service.ejs", { service: service }) -%>
-                        <% }); %>
-                  </div>
-                  <% if (popularServices.length> 0) { %>
-                    <h1 class="font-bold text-3xl text-color-bg">Serviços populares</h1>
+                  <% if (services.length> 0) { %>
+                    <h1 class="font-bold text-3xl text-color-bg">
+                      <%= currentPath.includes("/category") ? "Serviços de " +
+                        decodeURIComponent(currentPath.replace("/category/", "" )) : currentPath.includes("/search")
+                        ? 'Resultados da pesquisa' : isServicesFavorites===true ? 'Serviços favoritos'
+                        : 'Serviços na sua região' %>
+                    </h1>
                     <% } %>
-
                       <div class="flex align-center flex-col md:flex-row flex-wrap gap-4">
-                        <% popularServices.forEach(function(service) {%>
+                        <% services.forEach(function(service) {%>
                           <%- include("./partials/service.ejs", { service: service }) -%>
                             <% }); %>
                       </div>
+                      <% if (popularServices.length> 0) { %>
+                        <h1 class="font-bold text-3xl text-color-bg">Serviços populares</h1>
+                        <% } %>
+
+                          <div class="flex align-center flex-col md:flex-row flex-wrap gap-4">
+                            <% popularServices.forEach(function(service) {%>
+                              <%- include("./partials/service.ejs", { service: service }) -%>
+                                <% }); %>
+                          </div>
             </div>
       </div>
   </div>
@@ -80,7 +94,7 @@
 
     document.querySelectorAll("#iconCategory").forEach(function (icon) {
       if (window.location.pathname.includes("/category/")) {
-        if (icon.getAttribute("name") === window.location.pathname.replace("/category/", "")) {
+        if (icon.getAttribute("name") === decodeURIComponent(window.location.pathname.replace("/category/", ""))) {
           icon.classList.add("bg-color-primary");
           icon.classList.add("border-color-primary");
           icon.classList.add("[&_*]:stroke-white");
@@ -93,6 +107,24 @@
         }
       }
     });
+
+    async function toggleFavorite(serviceId, isFavorited, el) {
+      try {
+        const method = isFavorited === "true" ? "DELETE" : "POST";
+        if (method === "POST") {
+          el.classList.add("favorited");
+          el.setAttribute('data-favorite', 'true');
+          el.setAttribute('onclick', `toggleFavorite('${serviceId}', 'true', this)`);
+        } else {
+          el.classList.remove("favorited");
+          el.setAttribute('data-favorite', 'false');
+          el.setAttribute('onclick', `toggleFavorite('${serviceId}', 'false', this)`);
+        }
+        const res = await fetch(`/service/${serviceId}/favorite`, { method });
+      } catch (e) {
+        console.log("Você precisa estar logado para favoritar.");
+      }
+    }
   </script>
 
   </body>

@@ -18,3 +18,8 @@ body {
 
   background-color: var(--color-gray-light);
 }
+
+.favorited * {
+  fill: var(--color-primary);
+  stroke: var(--color-primary);
+}

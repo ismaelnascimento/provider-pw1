@@ -12,6 +12,9 @@ const servicesFavoritesRouter = require("./routes/services-favorites");
 const servicesSearchRouter = require("./routes/services-search");
 const loginRouter = require("./routes/user/login");
 const signUpRouter = require("./routes/user/signup");
+const logoutRouter = require("./routes/user/logout");
+var locationEditRouter = require('./routes/user/location-edit');
+var serviceEditRouter = require('./routes/user/service-edit');
 
 const app = express();
 
@@ -44,6 +47,9 @@ app.use("/favorites", servicesFavoritesRouter);
 app.use("/search", servicesSearchRouter);
 app.use("/login", loginRouter);
 app.use("/signup", signUpRouter);
+app.use("/logout", logoutRouter);
+app.use('/location-edit', locationEditRouter);
+app.use('/service-edit', serviceEditRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

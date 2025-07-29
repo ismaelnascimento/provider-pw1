@@ -1,6 +1,8 @@
 <div class="relative border border-color-gray-light-2 bg-white p-5 rounded-lg w-74 flex flex-col gap-6 justify-center">
-    <svg id="iconFavorite"
-        class="<%= service.favorite ? '[&_*]:fill-color-primary [&_*]:stroke-color-primary' : '' %>  cursor-pointer absolute top-5 right-5"
+    <% if (user) { %>
+    <svg id="iconFavorite" data-service-id="<%= service._id %>" data-favorite="<%= service.favorite %>"
+        onclick="toggleFavorite('<%= service._id %>', '<%= service.favorite %>', this)"
+        class="<%= service.favorite ? 'favorited' : '' %>  cursor-pointer absolute top-5 right-5"
         width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clip-path="url(#clip0_38_90)">
             <path
@@ -13,6 +15,7 @@
             </clipPath>
         </defs>
     </svg>
+    <% } %>
 
 
     <section class="flex flex-col gap-0">

@@ -88,13 +88,6 @@ router.post("/", async (req, res) => {
         location,
         contact: serviceLink,
         stars: 0,
-        // favorite:
-        // {
-        //   "_id": ObjectId("fav001"),
-        //   "userId": ObjectId("userA"),
-        //   "serviceId": ObjectId("service123"),
-        //   "createdAt": ISODate("2025-07-24T19:30:00Z")
-        // }
       }
       newUser = await UsersDAO.insertUser(dbUsers, { ...user, service });
       console.log("Usuário inserido com sucesso!")
