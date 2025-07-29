@@ -4,16 +4,15 @@ var categories = require("../../data/categories");
 const ServicesDAO = require("../../DAO/servicesDAO");
 const UsersDAO = require("../../DAO/usersDAO");
 const { dbServices, dbUsers } = require("../../database");
-const { ObjectId } = require("mongodb");
 
 /* GET service edit page */
 router.get("/", function (req, res, next) {
   const user = req.session.user;
-  
+
   if (!user || user.roleId !== 1) {
     return res.redirect('/');
   }
-  
+
   res.render("service-edit", {
     pageName: "Editar Serviço - Provider",
     user: user,
@@ -27,26 +26,26 @@ router.get("/", function (req, res, next) {
 /* POST update service */
 router.post("/", async function (req, res, next) {
   const user = req.session.user;
-  const { 
-    serviceName, 
-    serviceCategory, 
-    serviceLink, 
-    locationCity, 
-    locationState, 
-    locationNeighborhood, 
-    locationStreet, 
-    locationLatitude, 
-    locationLongitude 
+  const {
+    serviceName,
+    serviceCategory,
+    serviceLink,
+    locationCity,
+    locationState,
+    locationNeighborhood,
+    locationStreet,
+    locationLatitude,
+    locationLongitude
   } = req.body;
-  
+
   if (!user || user.roleId !== 1) {
     return res.redirect('/');
   }
 
   try {
-    if (!serviceName || !serviceCategory || !serviceLink || 
-        !locationCity || !locationState || !locationNeighborhood || 
-        !locationStreet || !locationLatitude || !locationLongitude) {
+    if (!serviceName || !serviceCategory || !serviceLink ||
+      !locationCity || !locationState || !locationNeighborhood ||
+      !locationStreet || !locationLatitude || !locationLongitude) {
       return res.render("service-edit", {
         pageName: "Editar Serviço - Provider",
         user: user,
@@ -57,38 +56,45 @@ router.post("/", async function (req, res, next) {
       });
     }
 
-    // Create location object
-    const location = { 
-      type: "Point", 
-      coordinates: [parseFloat(locationLongitude), parseFloat(locationLatitude)], 
-      city: locationCity, 
-      neighborhood: locationNeighborhood, 
-      state: locationState, 
-      street: locationStreet 
+    const location = {
+      type: "Point",
+      coordinates: [parseFloat(locationLongitude), parseFloat(locationLatitude)],
+      city: locationCity,
+      neighborhood: locationNeighborhood,
+      state: locationState,
+      street: locationStreet
     };
 
-    // Update service in database
     await ServicesDAO.updateServiceById(
-      dbServices, 
-      { _id: new ObjectId(user.service._id) }, 
-      { 
-        $set: { 
+      dbServices,
+      { id: user.service.id },
+      {
+        $set: {
           name: serviceName,
           category: serviceCategory,
           contact: serviceLink,
           location: location
-        } 
+        }
       }
     );
-
-    // Update user location in database
+    
     await UsersDAO.updateUserById(
       dbUsers,
       { id: user.id },
-      { $set: { location: location } }
+      {
+        $set: {
+          location: location, service: {
+            _id: user.service._id,
+            id: user.service.id,
+            name: serviceName,
+            category: serviceCategory,
+            contact: serviceLink,
+            location: location,
+          }
+        }
+      }
     );
 
-    // Update session
     user.service.name = serviceName;
     user.service.category = serviceCategory;
     user.service.contact = serviceLink;
@@ -99,7 +105,7 @@ router.post("/", async function (req, res, next) {
     res.redirect('/');
   } catch (err) {
     console.error("Erro ao atualizar serviço:", err);
-    
+
     return res.render("service-edit", {
       pageName: "Editar Serviço - Provider",
       user: user,

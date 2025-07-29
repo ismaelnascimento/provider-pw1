@@ -45,14 +45,12 @@ router.post("/", async function (req, res, next) {
       street: locationStreet || user.location.street 
     };
 
-    // Update user in database
     await UsersDAO.updateUserById(
       dbUsers, 
       { id: user.id }, 
       { $set: { location: location } }
     );
 
-    // Update session
     user.location = location;
     req.session.user = user;
 

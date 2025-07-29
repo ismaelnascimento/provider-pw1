@@ -31,4 +31,15 @@ Um projeto web app da disciplina de Progamação Web 1 com o intuito de fornecer
 ![image](https://github.com/user-attachments/assets/4eb76619-ada1-4de7-99cc-67476bdd5775)
 
 
-Obs: Você pode usar um usuário provedor: <b>ismaelnascimento</b> ou um usuário cliente: <b>userclient1</b> para fazer login. Por enquanto não existe a verificação da senha, só do nome de usuário.
+Usuários:
+
+Provedores:
+- mariasilva:123456
+- lcgomeslds:123456
+- rafaelsousa:123456
+- beatrizlima:123456
+
+Clientes:
+- ismaelnascimento:carrinho123
+- josealmeida:123456
+- leandrochaves:123456

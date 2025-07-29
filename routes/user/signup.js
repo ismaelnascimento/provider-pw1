@@ -77,7 +77,8 @@ router.post("/", async (req, res) => {
     const user = { id: generateId, username, roleId, password: hashedPassword, service: null, location, createdAt: new Date() };
 
     if (roleId == 0) {
-      newUser = await UsersDAO.insertUser(dbUsers, user);
+      newUser = user
+      await UsersDAO.insertUser(dbUsers, user);
     } else {
       const generateServiceId = crypto.randomUUID();
 
@@ -89,13 +90,15 @@ router.post("/", async (req, res) => {
         contact: serviceLink,
         stars: 0,
       }
-      newUser = await UsersDAO.insertUser(dbUsers, { ...user, service });
+      await UsersDAO.insertUser(dbUsers, { ...user, service });
       console.log("Usuário inserido com sucesso!")
       await ServicesDAO.insertService(dbServices, { ...service, user: user });
+      newUser = { ...user, service }
       console.log("Serviço inserido com sucesso!")
     }
-
-    req.session.user = newUser;
+    if (newUser) {
+      req.session.user = newUser;
+    }
     res.redirect('/');
   } catch (err) {
     console.log("Ocorreu um erro ao fazer cadastro:")

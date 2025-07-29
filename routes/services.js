@@ -10,6 +10,7 @@ var router = express.Router();
 /* GET services listing. */
 router.get("/", async function (req, res, next) {
   const getUser = req?.session?.user;
+  
   const userLocation = getUser?.location || {
     type: "Point",
     state: "",
@@ -70,7 +71,6 @@ router.post("/service/:serviceId/favorite", async function (req, res, next) {
       createdAt: new Date()
     });
     
-    // Update the service stars based on favorites
     await updateServiceStars(serviceId);
   }
 
@@ -85,28 +85,21 @@ router.delete("/service/:serviceId/favorite", async function (req, res, next) {
   if (getUser) {
     await ServicesDAO.deleteFavoriteById(dbFavorites, getUser.id, serviceId);
     
-    // Update the service stars based on favorites
     await updateServiceStars(serviceId);
   }
 
   res.redirect("/");
 });
 
-// Helper function to update service stars
 async function updateServiceStars(serviceId) {
   try {
-    // Get total number of favorites for this service
     const favoritesCount = await dbFavorites.countDocuments({ serviceId: new ObjectId(serviceId) });
     
-    // Calculate the star rating (1 favorite = 1 star, max 5 stars)
-    // You can adjust this formula based on your requirements
     const totalUsers = await dbFavorites.distinct('userId').length || 1;
     const starRating = Math.min(5, Math.max(1, (favoritesCount / totalUsers) * 5));
     
-    // Round to one decimal place
     const stars = Math.round(starRating * 10) / 10;
     
-    // Update the service's star rating
     await ServicesDAO.updateServiceById(
       dbServices,
       { _id: new ObjectId(serviceId) },
