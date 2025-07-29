@@ -24,7 +24,7 @@
           <% } %>
             <!-- SERVICES -->
             <div class="flex flex-wrap flex-col gap-5">
-              <% if (services.length <=0) { %>
+              <% if (services.length <=0 && user) { %>
                 <p class="items-center justify-start h-24 text-left gap-2 flex font-medium text-base text-gray-500">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26" color="#6a7282"
                     fill="none">
@@ -62,71 +62,170 @@
       </div>
   </div>
 
-  <script>
-    function getSearchParams() {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.toString() ? '?' + urlParams.toString() : '';
-    }
+  <!-- Modal de Avaliação -->
+  <%- include("./partials/rating-modal.ejs") -%>
 
-    document.querySelectorAll("#buttonSidebar").forEach(function (buttonSidebar) {
-      if (buttonSidebar.getAttribute("link") === window.location.pathname || (window.location.pathname.includes("/category/") && buttonSidebar.getAttribute("link") === "/")) {
-        buttonSidebar.classList.remove("bg-white");
-        buttonSidebar.classList.remove("border-color-gray-light-2");
-        buttonSidebar.classList.remove("[&_*]:stroke-color-bg");
-        buttonSidebar.classList.remove("[&_*]:text-color-bg");
-
-        buttonSidebar.classList.add("bg-color-bg");
-        buttonSidebar.classList.add("border-bg-color-bg");
-        buttonSidebar.classList.add("[&_*]:stroke-white");
-        buttonSidebar.classList.add("[&_*]:text-white");
-      } else {
-        buttonSidebar.classList.add("bg-white");
-        buttonSidebar.classList.add("border-color-gray-light-2");
-        buttonSidebar.classList.add("[&_*]:stroke-color-bg");
-        buttonSidebar.classList.add("[&_*]:text-color-bg");
-
-        buttonSidebar.classList.remove("bg-color-bg");
-        buttonSidebar.classList.remove("border-bg-color-bg");
-        buttonSidebar.classList.remove("[&_*]:stroke-white");
-        buttonSidebar.classList.remove("[&_*]:text-white");
+    <script>
+      function getSearchParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.toString() ? '?' + urlParams.toString() : '';
       }
-    });
 
-    document.querySelectorAll("#iconCategory").forEach(function (icon) {
-      if (window.location.pathname.includes("/category/")) {
-        if (icon.getAttribute("name") === decodeURIComponent(window.location.pathname.replace("/category/", ""))) {
-          icon.classList.add("bg-color-primary");
-          icon.classList.add("border-color-primary");
-          icon.classList.add("[&_*]:stroke-white");
-        }
-      } else {
-        if (icon.getAttribute("name") === "todos") {
-          icon.classList.add("bg-color-primary");
-          icon.classList.add("border-color-primary");
-          icon.classList.add("[&_*]:stroke-white");
-        }
-      }
-    });
+      document.querySelectorAll("#buttonSidebar").forEach(function (buttonSidebar) {
+        if (buttonSidebar.getAttribute("link") === window.location.pathname || (window.location.pathname.includes("/category/") && buttonSidebar.getAttribute("link") === "/")) {
+          buttonSidebar.classList.remove("bg-white");
+          buttonSidebar.classList.remove("border-color-gray-light-2");
+          buttonSidebar.classList.remove("[&_*]:stroke-color-bg");
+          buttonSidebar.classList.remove("[&_*]:text-color-bg");
 
-    async function toggleFavorite(serviceId, isFavorited, el) {
-      try {
-        const method = isFavorited === "true" ? "DELETE" : "POST";
-        if (method === "POST") {
-          el.classList.add("favorited");
-          el.setAttribute('data-favorite', 'true');
-          el.setAttribute('onclick', `toggleFavorite('${serviceId}', 'true', this)`);
+          buttonSidebar.classList.add("bg-color-bg");
+          buttonSidebar.classList.add("border-bg-color-bg");
+          buttonSidebar.classList.add("[&_*]:stroke-white");
+          buttonSidebar.classList.add("[&_*]:text-white");
         } else {
-          el.classList.remove("favorited");
-          el.setAttribute('data-favorite', 'false');
-          el.setAttribute('onclick', `toggleFavorite('${serviceId}', 'false', this)`);
+          buttonSidebar.classList.add("bg-white");
+          buttonSidebar.classList.add("border-color-gray-light-2");
+          buttonSidebar.classList.add("[&_*]:stroke-color-bg");
+          buttonSidebar.classList.add("[&_*]:text-color-bg");
+
+          buttonSidebar.classList.remove("bg-color-bg");
+          buttonSidebar.classList.remove("border-bg-color-bg");
+          buttonSidebar.classList.remove("[&_*]:stroke-white");
+          buttonSidebar.classList.remove("[&_*]:text-white");
         }
-        const res = await fetch(`/service/${serviceId}/favorite`, { method });
-      } catch (e) {
-        console.log("Você precisa estar logado para favoritar.");
+      });
+
+      document.querySelectorAll("#iconCategory").forEach(function (icon) {
+        if (window.location.pathname.includes("/category/")) {
+          if (icon.getAttribute("name") === decodeURIComponent(window.location.pathname.replace("/category/", ""))) {
+            icon.classList.add("bg-color-primary");
+            icon.classList.add("border-color-primary");
+            icon.classList.add("[&_*]:stroke-white");
+          }
+        } else {
+          if (icon.getAttribute("name") === "todos") {
+            icon.classList.add("bg-color-primary");
+            icon.classList.add("border-color-primary");
+            icon.classList.add("[&_*]:stroke-white");
+          }
+        }
+      });
+
+      async function toggleFavorite(serviceId, isFavorited, el) {
+        try {
+          const method = isFavorited === "true" ? "DELETE" : "POST";
+          if (method === "POST") {
+            el.classList.add("favorited");
+            el.setAttribute('data-favorite', 'true');
+            el.setAttribute('onclick', `toggleFavorite('${serviceId}', 'true', this)`);
+          } else {
+            el.classList.remove("favorited");
+            el.setAttribute('data-favorite', 'false');
+            el.setAttribute('onclick', `toggleFavorite('${serviceId}', 'false', this)`);
+          }
+          const res = await fetch(`/service/${serviceId}/favorite`, { method });
+        } catch (e) {
+          console.log("Você precisa estar logado para favoritar.");
+        }
       }
-    }
-  </script>
 
-  </body>
+      // Funções para o modal de avaliação
+      let currentRating = 0;
 
-  </html>
+      function openRatingModal(serviceId, serviceName) {
+        document.getElementById('currentServiceId').value = serviceId;
+        document.getElementById('ratingModalTitle').textContent = `Avaliar ${serviceName}`;
+        document.getElementById('ratingModal').classList.remove('hidden');
+
+        // Resetar as estrelas
+        resetStars();
+
+        // Verificar se o usuário já avaliou este serviço
+        checkExistingRating(serviceId);
+      }
+
+      function closeRatingModal() {
+        document.getElementById('ratingModal').classList.add('hidden');
+        document.getElementById('currentServiceId').value = '';
+        document.getElementById('currentRating').value = '0';
+        resetStars();
+      }
+
+      function resetStars() {
+        currentRating = 0;
+        document.getElementById('ratingValue').textContent = '';
+        document.getElementById('submitRatingBtn').disabled = true;
+
+        const stars = document.querySelectorAll('.rating-star');
+        stars.forEach(star => {
+          star.querySelector('path').setAttribute('fill', 'none');
+        });
+      }
+
+      function selectRating(rating) {
+        currentRating = rating;
+        document.getElementById('currentRating').value = rating;
+        document.getElementById('ratingValue').textContent = `${rating} estrela${rating !== 1 ? 's' : ''}`;
+        document.getElementById('submitRatingBtn').disabled = false;
+
+        document.querySelectorAll('.rating-star').forEach(star => {
+          star.classList.remove('selected');
+          star.querySelector('path').setAttribute('fill', 'none');
+        });
+
+        document.querySelectorAll('.rating-star').forEach(star => {
+          const starRating = parseInt(star.getAttribute('data-rating'));
+          if (starRating <= rating) {
+            star.classList.add('selected');
+            star.querySelector('path').setAttribute('fill', '#FFEA4D');
+          }
+        });
+      }
+
+      async function checkExistingRating(serviceId) {
+        try {
+          const response = await fetch(`/service/${serviceId}/rating`);
+          const data = await response.json();
+
+          if (data.rating > 0) {
+            selectRating(data.rating);
+            document.getElementById('submitRatingBtn').textContent = 'Atualizar Avaliação';
+          } else {
+            document.getElementById('submitRatingBtn').textContent = 'Avaliar';
+          }
+        } catch (error) {
+          console.error('Erro ao verificar avaliação existente:', error);
+        }
+      }
+
+      async function submitRating() {
+        const serviceId = document.getElementById('currentServiceId').value;
+        const rating = document.getElementById('currentRating').value;
+
+        if (!serviceId || !rating) return;
+
+        try {
+          const response = await fetch(`/service/${serviceId}/rating`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ rating })
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            // Fechar o modal e atualizar a página para mostrar a nova avaliação
+            closeRatingModal();
+            window.location.reload();
+          }
+        } catch (error) {
+          console.error('Erro ao enviar avaliação:', error);
+        }
+      }
+    </script>
+
+    </body>
+
+    </html>

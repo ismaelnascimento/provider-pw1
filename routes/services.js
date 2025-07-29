@@ -1,7 +1,8 @@
 var express = require("express");
 var categories = require("../data/categories");
 const ServicesDAO = require("../DAO/servicesDAO");
-const { dbServices, dbFavorites } = require("../database");
+const RatingsDAO = require("../DAO/ratingsDAO");
+const { dbServices, dbFavorites, dbRatings } = require("../database");
 const { ObjectId } = require("mongodb");
 var crypto = require("crypto");
 
@@ -70,8 +71,6 @@ router.post("/service/:serviceId/favorite", async function (req, res, next) {
       serviceId: new ObjectId(serviceId),
       createdAt: new Date()
     });
-    
-    await updateServiceStars(serviceId);
   }
 
   res.redirect("/");
@@ -84,21 +83,111 @@ router.delete("/service/:serviceId/favorite", async function (req, res, next) {
 
   if (getUser) {
     await ServicesDAO.deleteFavoriteById(dbFavorites, getUser.id, serviceId);
-    
-    await updateServiceStars(serviceId);
   }
 
   res.redirect("/");
 });
 
+// Nova rota para obter a avaliação de um serviço pelo usuário
+router.get("/service/:serviceId/rating", async function (req, res, next) {
+  const { serviceId } = req.params;
+  const user = req?.session?.user;
+
+  if (!user) {
+    return res.status(401).json({ error: "Usuário não autenticado" });
+  }
+
+  try {
+    const rating = await RatingsDAO.getRatingByUserAndService(
+      dbRatings, 
+      user.id, 
+      serviceId
+    );
+    
+    return res.json({ rating: rating ? rating.rating : 0 });
+  } catch (err) {
+    console.error("Erro ao obter avaliação:", err);
+    return res.status(500).json({ error: "Erro ao obter avaliação" });
+  }
+});
+
+// Nova rota para avaliar um serviço
+router.post("/service/:serviceId/rating", async function (req, res, next) {
+  const { serviceId } = req.params;
+  const { rating } = req.body;
+  const user = req?.session?.user;
+
+  if (!user) {
+    return res.status(401).json({ error: "Usuário não autenticado" });
+  }
+
+  try {
+    const ratingValue = parseInt(rating);
+    if (isNaN(ratingValue) || ratingValue < 1 || ratingValue > 5) {
+      return res.status(400).json({ error: "Avaliação inválida" });
+    }
+
+    const existingRating = await RatingsDAO.getRatingByUserAndService(
+      dbRatings, 
+      user.id, 
+      serviceId
+    );
+
+    if (existingRating) {
+      // Atualizar avaliação existente
+      await RatingsDAO.updateRating(
+        dbRatings,
+        user.id,
+        serviceId,
+        ratingValue
+      );
+    } else {
+      // Criar nova avaliação
+      const generateId = crypto.randomUUID();
+      await RatingsDAO.insertRating(dbRatings, {
+        id: generateId,
+        userId: user.id,
+        serviceId: new ObjectId(serviceId),
+        rating: ratingValue,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+    }
+
+    // Atualizar a média de estrelas do serviço
+    const averageRating = await RatingsDAO.calculateAverageRating(dbRatings, serviceId);
+    await ServicesDAO.updateServiceById(
+      dbServices,
+      { _id: new ObjectId(serviceId) },
+      { $set: { stars: averageRating } }
+    );
+
+    return res.json({ success: true, rating: ratingValue });
+  } catch (err) {
+    console.error("Erro ao avaliar serviço:", err);
+    return res.status(500).json({ error: "Erro ao avaliar serviço" });
+  }
+});
+
 async function updateServiceStars(serviceId) {
   try {
+    // Atualizar para usar o sistema de avaliação
+    const averageRating = await RatingsDAO.calculateAverageRating(dbRatings, serviceId);
+    
+    // Considerar também os favoritos para o cálculo final
     const favoritesCount = await dbFavorites.countDocuments({ serviceId: new ObjectId(serviceId) });
-    
     const totalUsers = await dbFavorites.distinct('userId').length || 1;
-    const starRating = Math.min(5, Math.max(1, (favoritesCount / totalUsers) * 5));
+    const favoriteRating = Math.min(5, Math.max(1, (favoritesCount / totalUsers) * 5));
     
-    const stars = Math.round(starRating * 10) / 10;
+    // Média ponderada: 70% avaliações diretas, 30% favoritos
+    let finalRating = averageRating;
+    if (averageRating > 0) {
+      finalRating = (averageRating * 0.7) + (favoriteRating * 0.3);
+    } else {
+      finalRating = favoriteRating;
+    }
+    
+    const stars = Math.round(finalRating * 10) / 10;
     
     await ServicesDAO.updateServiceById(
       dbServices,

@@ -1,0 +1,64 @@
+<div id="ratingModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-lg p-6 w-96 max-w-full">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold text-color-bg" id="ratingModalTitle">Avaliar Serviço</h2>
+            <button onclick="closeRatingModal()" class="text-gray-500 hover:text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        
+        <div class="mb-6">
+            <p class="text-sm text-gray-600 mb-4">Avalie este serviço selecionando de 1 a 5 estrelas</p>
+            <div class="flex flex-row-reverse items-center justify-center space-x-2" id="ratingStars">
+                <svg onclick="selectRating(1)" data-rating="1" class="rating-star cursor-pointer w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="#FFA920" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <svg onclick="selectRating(2)" data-rating="2" class="rating-star cursor-pointer w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="#FFA920" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <svg onclick="selectRating(3)" data-rating="3" class="rating-star cursor-pointer w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="#FFA920" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <svg onclick="selectRating(4)" data-rating="4" class="rating-star cursor-pointer w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="#FFA920" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <svg onclick="selectRating(5)" data-rating="5" class="rating-star cursor-pointer w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="#FFA920" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+            <p id="ratingValue" class="text-center mt-2 text-sm font-medium text-color-primary"></p>
+        </div>
+        
+        <div class="flex justify-end space-x-2">
+            <button onclick="closeRatingModal()" class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">
+                Cancelar
+            </button>
+            <button onclick="submitRating()" id="submitRatingBtn" disabled class="px-4 py-2 bg-color-primary text-white rounded-lg text-sm font-medium hover:bg-color-bg disabled:opacity-50 disabled:cursor-not-allowed">
+                Avaliar
+            </button>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="currentServiceId" value="">
+<input type="hidden" id="currentRating" value="0">
+
+<style>
+    /* Corrige o problema de hover das estrelas */
+    .rating-star:hover path,
+    .rating-star:hover ~ .rating-star path {
+        /* Remover inversão de comportamento */
+    }
+
+    /* Efeito de hover simples e direto */
+    .rating-star:hover path {
+        fill: #FFEA4D;
+    }
+
+    /* Estilização para estrelas selecionadas */
+    .rating-star.selected path {
+        fill: #FFEA4D;
+    }
+</style>

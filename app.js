@@ -15,6 +15,7 @@ const signUpRouter = require("./routes/user/signup");
 const logoutRouter = require("./routes/user/logout");
 var locationEditRouter = require('./routes/user/location-edit');
 var serviceEditRouter = require('./routes/user/service-edit');
+const { dbRatings } = require("./database");
 
 const app = express();
 

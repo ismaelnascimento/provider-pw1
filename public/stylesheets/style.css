@@ -23,3 +23,22 @@ body {
   fill: var(--color-primary);
   stroke: var(--color-primary);
 }
+
+/* Estilos para o modal de avaliação */
+.rating-star path {
+  transition: all 0.2s ease;
+}
+
+.rating-star:hover path {
+  fill: #FFEA4D;
+}
+
+.rating-star:hover ~ .rating-star path {
+  fill: none;
+}
+
+
+#ratingStars .rating-star:hover path,
+#ratingStars .rating-star:hover ~ .rating-star path {
+  fill: #FFEA4D;
+}

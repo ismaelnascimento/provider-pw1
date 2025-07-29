@@ -1,4 +1,3 @@
-
 const bcrypt = require("bcrypt")
 
 const URI = process.env.URI;
@@ -10,11 +9,13 @@ const dbUsers = db.collection("users")
 const dbServices = db.collection("services")
 const dbFavorites = db.collection("favorites")
 const dbCategories = db.collection("categories")
+const dbRatings = db.collection("ratings")
 
 module.exports = {
     dbUsers,
     dbServices,
     dbCategories,
     dbFavorites,
+    dbRatings,
     bcrypt
 }
