@@ -49,7 +49,7 @@
             <section class="flex flex-row items-center justify-between w-full">
                 <div class="flex items-center gap-1.5">
                     <svg id="iconStar" data-service-id="<%= service._id %>" 
-                        onclick="<%= user && user?.service?._id != service._id ? `openRatingModal('${service._id}', '${service.name}')` : 'return;' %>"
+                        onclick="<%= user && user?.service?.id != service.id ? `openRatingModal('${service._id}', '${service.name}')` : 'return;' %>"
                         class="cursor-pointer" width="23" height="24" viewBox="0 0 23 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M12.9467 2.79869L14.7701 6.6042C15.0187 7.13394 15.6818 7.64206 16.2413 7.73936L19.5462 8.31235C21.6597 8.67993 22.157 10.28 20.634 11.8584L18.0647 14.5395C17.6295 14.9936 17.3913 15.8693 17.5259 16.4964L18.2616 19.8154C18.8417 22.4425 17.5052 23.4587 15.2778 22.0857L12.18 20.1722C11.6206 19.8262 10.6985 19.8262 10.1287 20.1722L7.03096 22.0857C4.81385 23.4587 3.46702 22.4316 4.0472 19.8154L4.78278 16.4964C4.91746 15.8693 4.67917 14.9936 4.24403 14.5395L1.67469 11.8584C0.162081 10.28 0.649017 8.67993 2.76251 8.31235L6.06745 7.73936C6.61655 7.64206 7.27961 7.13394 7.52825 6.6042L9.35165 2.79869C10.3462 0.73377 11.9624 0.73377 12.9467 2.79869Z"

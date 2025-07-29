@@ -129,7 +129,6 @@
         }
       }
 
-      // Funções para o modal de avaliação
       let currentRating = 0;
 
       function openRatingModal(serviceId, serviceName) {
@@ -137,10 +136,8 @@
         document.getElementById('ratingModalTitle').textContent = `Avaliar ${serviceName}`;
         document.getElementById('ratingModal').classList.remove('hidden');
 
-        // Resetar as estrelas
         resetStars();
 
-        // Verificar se o usuário já avaliou este serviço
         checkExistingRating(serviceId);
       }
 

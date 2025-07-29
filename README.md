@@ -40,6 +40,7 @@ Provedores:
 - lcgomeslds:123456 - Itaitinga
 - rafaelsousa:123456 - Aldeota
 - beatrizlima:123456 - Messejana
+- xaviermarceneiro:123456 - Messejana
 
 Clientes:
 - ismaelnascimento:carrinho123 - Itaitinga
