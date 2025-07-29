@@ -88,7 +88,6 @@ router.delete("/service/:serviceId/favorite", async function (req, res, next) {
   res.redirect("/");
 });
 
-// Nova rota para obter a avaliação de um serviço pelo usuário
 router.get("/service/:serviceId/rating", async function (req, res, next) {
   const { serviceId } = req.params;
   const user = req?.session?.user;
@@ -111,7 +110,6 @@ router.get("/service/:serviceId/rating", async function (req, res, next) {
   }
 });
 
-// Nova rota para avaliar um serviço
 router.post("/service/:serviceId/rating", async function (req, res, next) {
   const { serviceId } = req.params;
   const { rating } = req.body;
@@ -134,7 +132,6 @@ router.post("/service/:serviceId/rating", async function (req, res, next) {
     );
 
     if (existingRating) {
-      // Atualizar avaliação existente
       await RatingsDAO.updateRating(
         dbRatings,
         user.id,
@@ -142,7 +139,6 @@ router.post("/service/:serviceId/rating", async function (req, res, next) {
         ratingValue
       );
     } else {
-      // Criar nova avaliação
       const generateId = crypto.randomUUID();
       await RatingsDAO.insertRating(dbRatings, {
         id: generateId,
@@ -154,7 +150,6 @@ router.post("/service/:serviceId/rating", async function (req, res, next) {
       });
     }
 
-    // Atualizar a média de estrelas do serviço
     const averageRating = await RatingsDAO.calculateAverageRating(dbRatings, serviceId);
     await ServicesDAO.updateServiceById(
       dbServices,
@@ -168,37 +163,5 @@ router.post("/service/:serviceId/rating", async function (req, res, next) {
     return res.status(500).json({ error: "Erro ao avaliar serviço" });
   }
 });
-
-async function updateServiceStars(serviceId) {
-  try {
-    // Atualizar para usar o sistema de avaliação
-    const averageRating = await RatingsDAO.calculateAverageRating(dbRatings, serviceId);
-    
-    // Considerar também os favoritos para o cálculo final
-    const favoritesCount = await dbFavorites.countDocuments({ serviceId: new ObjectId(serviceId) });
-    const totalUsers = await dbFavorites.distinct('userId').length || 1;
-    const favoriteRating = Math.min(5, Math.max(1, (favoritesCount / totalUsers) * 5));
-    
-    // Média ponderada: 70% avaliações diretas, 30% favoritos
-    let finalRating = averageRating;
-    if (averageRating > 0) {
-      finalRating = (averageRating * 0.7) + (favoriteRating * 0.3);
-    } else {
-      finalRating = favoriteRating;
-    }
-    
-    const stars = Math.round(finalRating * 10) / 10;
-    
-    await ServicesDAO.updateServiceById(
-      dbServices,
-      { _id: new ObjectId(serviceId) },
-      { $set: { stars: stars } }
-    );
-    
-    console.log(`Updated service ${serviceId} stars to ${stars}`);
-  } catch (err) {
-    console.error("Error updating service stars:", err);
-  }
-}
 
 module.exports = router;

@@ -15,12 +15,12 @@ router.get("/:categoryName", async function (req, res, next) {
     city: "",
     neighborhood: "",
     street: "",
-    coordinates: [0, 0],
+    coordinates: null,
   };
 
   const userLocationStr = `${userLocation.state}, ${userLocation.city}, ${userLocation.neighborhood}, ${userLocation.street}`;
-
-  const filteredServices = userLocation?.coordinates ? await ServicesDAO.getServicesByLocalAndCategory(dbServices, {
+  
+  const filteredServices = !req.query.withoutlocation && userLocation?.coordinates ? await ServicesDAO.getServicesByLocalAndCategory(dbServices, {
     latitude: userLocation?.coordinates[1],
     longitude: userLocation?.coordinates[0],
     maxDistance: 8000

@@ -46,3 +46,5 @@ Clientes:
 - ismaelnascimento:carrinho123 - Itaitinga
 - josealmeida:123456 - Aldeota
 - leandrochaves:123456 - Messejana
+- kauasousa:123456 - Praia de Iracema
+- miguelito:123456 - Cidade dos Funcionários
