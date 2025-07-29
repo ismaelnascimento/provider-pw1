@@ -29,7 +29,7 @@ router.get("/", async function (req, res, next) {
       filteredServices = await ServicesDAO.getServicesByLocal(dbServices, {
         latitude: userLocation.coordinates[1],
         longitude: userLocation.coordinates[0],
-        maxDistance: 10000
+        maxDistance: 8000
       });
     } catch (error) {
       console.error("Erro ao buscar serviços por localização:", error);

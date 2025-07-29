@@ -33,13 +33,15 @@ Um projeto web app da disciplina de Progamação Web 1 com o intuito de fornecer
 
 Usuários:
 
+A pesquisa por localização de serviços é feita em uma área de 8km
+
 Provedores:
-- mariasilva:123456
-- lcgomeslds:123456
-- rafaelsousa:123456
-- beatrizlima:123456
+- mariasilva:123456 - Itaitinga
+- lcgomeslds:123456 - Itaitinga
+- rafaelsousa:123456 - Aldeota
+- beatrizlima:123456 - Messejana
 
 Clientes:
-- ismaelnascimento:carrinho123
-- josealmeida:123456
-- leandrochaves:123456
+- ismaelnascimento:carrinho123 - Itaitinga
+- josealmeida:123456 - Aldeota
+- leandrochaves:123456 - Messejana

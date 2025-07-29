@@ -19,7 +19,7 @@ class ServicesDAO {
         const cursor = await client.find(filter)
         try {
             const results = await cursor.toArray();
-            console.log(results)
+            // console.log(results)
             return results
         } catch (e) {
             console.log(e)
@@ -29,9 +29,6 @@ class ServicesDAO {
     static async getServicesByLocal(client, location) {
         // dbServices.createIndex({ "location": "2dsphere" })
         return await ServicesDAO.getAllServicesByFilter(client, ServicesDAO.filterLocation(location))
-        // https://leafletjs.com/examples/quick-start/
-        // https://www.mongodb.com/resources/basics/databases/database-search
-        // https://www.mongodb.com/docs/manual/geospatial-queries/
     }
     static async getServicesByLocalAndCategory(client, location, category) {
         if (location?.coordinates) {
@@ -55,7 +52,7 @@ class ServicesDAO {
         )
         try {
             const results = await cursor.toArray();
-            console.log(results)
+            // console.log(results)
             return results
         } catch (e) {
             console.log(e)
@@ -112,7 +109,7 @@ class ServicesDAO {
         const cursor = await client.find({ userId })
         try {
             const results = await cursor.toArray();
-            console.log(results)
+            // console.log(results)
             return results
         } catch (e) {
             console.log(e)
@@ -142,7 +139,7 @@ class ServicesDAO {
 
         try {
             const results = await cursor.toArray();
-            console.log("Services Favorites:", results)
+            // console.log("Services Favorites:", results)
             return results
         } catch (e) {
             console.log(e)
@@ -178,10 +175,8 @@ class ServicesDAO {
     }
     static async updateServiceStars(client, serviceId) {
         try {
-            // Get total number of favorites for this service
             const favoritesCount = await dbFavorites.countDocuments({ serviceId: new ObjectId(serviceId) });
             
-            // Get distinct user count who have favorites to calculate average
             const uniqueUsersCursor = await dbFavorites.aggregate([
                 { $group: { _id: "$userId" } },
                 { $count: "uniqueUsers" }
@@ -190,13 +185,10 @@ class ServicesDAO {
             const uniqueUsersResult = await uniqueUsersCursor.toArray();
             const totalUniqueUsers = uniqueUsersResult.length > 0 ? uniqueUsersResult[0].uniqueUsers : 1;
             
-            // Calculate star rating (normalized to 1-5 scale)
             const starRating = Math.min(5, Math.max(1, (favoritesCount / totalUniqueUsers) * 5));
             
-            // Round to one decimal place
             const stars = Math.round(starRating * 10) / 10;
             
-            // Update the service
             await this.updateServiceById(
                 client,
                 { _id: new ObjectId(serviceId) },
